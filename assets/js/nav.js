@@ -10,7 +10,9 @@ export function initNavigation() {
   // Mobile menu toggle
   if (mobileMenuBtn && mainNav) {
     mobileMenuBtn.addEventListener('click', () => {
+      const isOpening = !mainNav.classList.contains('active');
       mainNav.classList.toggle('active');
+      mobileMenuBtn.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
       const icon = mobileMenuBtn.querySelector('i');
       if (icon) {
         icon.classList.toggle('fa-bars');
@@ -22,6 +24,7 @@ export function initNavigation() {
     document.addEventListener('click', (e) => {
       if (mainNav.classList.contains('active') && !e.target.closest('.main-nav') && !e.target.closest('.mobile-menu-btn')) {
         mainNav.classList.remove('active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
         const icon = mobileMenuBtn.querySelector('i');
         if (icon) {
           icon.classList.add('fa-bars');

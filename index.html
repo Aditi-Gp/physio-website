@@ -7,7 +7,10 @@
   <meta name="keywords" content="Physiotherapy, Dr Anchal Gupta, Online Physiotherapist, Back Pain, Neck Pain, Knee Rehabilitation, Manual Therapy, Dry Needling">
   <title>Dr. Anchal Gupta | Certified Physiotherapist & Online Consultations</title>
 
-  <!-- Google Fonts -->
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+
+  <!-- Google Fonts Preconnect & Font-Display Swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -26,7 +29,7 @@
   <header class="site-header">
     <div class="container nav-container">
       <a href="#" class="brand-logo">
-        <img src="assets/images/Physiotherapy-Logo.png" alt="Dr. Anchal Gupta Physiotherapy Logo">
+        <img src="assets/images/Physiotherapy-Logo.png" alt="Dr. Anchal Gupta Physiotherapy Logo" width="160" height="44" decoding="async">
         <div class="brand-title">
           <span class="doctor-name">Dr. Anchal Gupta</span>
           <span class="doctor-reg">MIAP 61713 | CVRS</span>
@@ -51,7 +54,7 @@
         </div>
       </nav>
 
-      <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+      <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="main-navigation">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -485,6 +488,49 @@
       </div>
 
       <div class="booking-card">
+        <!-- Inline Error Banner -->
+        <div id="booking-error-banner" class="booking-error-card" style="display: none;" role="alert">
+          <div class="booking-error-icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="booking-error-text">
+            <h4>Submission Notice</h4>
+            <p id="booking-error-message">Unable to submit to the booking server right now. Don't worry, your details are saved! You can complete your booking instantly via WhatsApp.</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a id="error-whatsapp-btn" href="https://wa.me/917042123365" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                <i class="fab fa-whatsapp"></i> Send via WhatsApp
+              </a>
+              <button type="button" id="dismiss-error-btn" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                Dismiss &amp; Retry
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Success Card (Replaces form upon successful submission) -->
+        <div id="booking-success-container" class="booking-feedback-container" aria-live="polite">
+          <div class="booking-success-card">
+            <div class="booking-success-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <h3>Consultation Request Received!</h3>
+            <p>
+              Thank you for reaching out to Dr. Anchal Gupta. Your consultation request has been submitted successfully. Dr. Anchal will review your details and confirm your appointment slot shortly.
+            </p>
+
+            <div id="booking-summary-details" class="booking-summary-box">
+              <!-- Dynamically populated summary -->
+            </div>
+
+            <div class="booking-feedback-actions">
+              <a id="success-whatsapp-btn" href="https://wa.me/917042123365" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> Fast-Track on WhatsApp (+91 70421 23365)
+              </a>
+              <button type="button" id="book-another-btn" class="btn btn-outline">
+                Book Another Consultation
+              </button>
+            </div>
+          </div>
+        </div>
+
         <form id="physio-booking-form">
           <div class="form-grid">
             <!-- 1. Full Name -->
@@ -804,7 +850,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-            <img src="assets/images/Physiotherapy-Logo.png" alt="Physiotherapy Logo" style="height: 38px; filter: brightness(0) invert(1);">
+            <img src="assets/images/Physiotherapy-Logo.png" alt="Physiotherapy Logo" width="140" height="38" loading="lazy" decoding="async" style="height: 38px; width: auto; filter: brightness(0) invert(1);">
             <h3 style="margin-bottom: 0;">Dr. Anchal Gupta</h3>
           </div>
           <p>

@@ -205,13 +205,18 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 0;
+  padding: 0.5rem 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+  min-height: 72px;
 }
 
 .brand-logo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brand-logo img {
@@ -241,12 +246,17 @@ ul {
   display: flex;
   align-items: center;
   gap: 2rem;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .nav-links {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-shrink: 1;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 
 .nav-links a {
@@ -254,12 +264,17 @@ ul {
   font-size: 0.95rem;
   color: var(--text-slate);
   position: relative;
-  padding: 0.25rem 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-fast);
 }
 
 .nav-links a:hover,
 .nav-links a.active {
   color: var(--accent-terracotta);
+  border-color: var(--secondary-sage-border);
+  background-color: var(--secondary-sage-light);
 }
 
 .nav-links a.active::after {
@@ -287,6 +302,8 @@ ul {
   color: var(--text-slate);
   cursor: pointer;
   padding: 0.5rem;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* ==========================================================================
@@ -1289,9 +1306,72 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   Responsive Media Queries (Mobile-First Adjustments)
+   Responsive Media Queries (Mobile-First Optimizations)
    ========================================================================== */
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
+  .site-header .nav-container {
+    position: relative;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    background-color: var(--bg-cream);
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    box-shadow: var(--shadow-lg);
+    border-bottom: 2px solid var(--secondary-sage-border);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease-in-out;
+    gap: 1.5rem;
+  }
+
+  .main-nav.active {
+    transform: translateY(0);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .nav-links a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1.05rem;
+    min-height: 44px;
+    line-height: 28px;
+    border: 1px solid var(--secondary-sage-border);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--bg-cream-card);
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .nav-actions .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
   .hero-grid,
   .about-grid {
     grid-template-columns: 1fr;
@@ -1316,37 +1396,20 @@ textarea.form-control {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    padding: 3rem 0 3.5rem;
+  }
+
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2.15rem;
   }
 
-  .main-nav {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-cream);
-    flex-direction: column;
-    padding: 2rem;
-    box-shadow: var(--shadow-lg);
-    border-bottom: 1px solid var(--secondary-sage-border);
-    transform: translateY(-150%);
-    transition: transform 0.3s ease-in-out;
+  .section-header {
+    margin-bottom: 2.5rem;
   }
 
-  .main-nav.active {
-    transform: translateY(0);
-  }
-
-  .nav-links {
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-    gap: 1.25rem;
-  }
-
-  .mobile-menu-btn {
-    display: block;
+  .section-header h2 {
+    font-size: 1.85rem;
   }
 
   .form-grid {
@@ -1357,8 +1420,14 @@ textarea.form-control {
     grid-column: span 1;
   }
 
+  .form-control,
+  select.form-control {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    min-height: 48px;
+  }
+
   .booking-card {
-    padding: 1.75rem 1.25rem;
+    padding: 2rem 1.25rem;
   }
 
   .stats-grid {
@@ -1367,10 +1436,68 @@ textarea.form-control {
   }
 
   .stat-card {
-    padding: 1.25rem 1rem;
+    padding: 1.25rem 0.75rem;
   }
 
   .stat-number {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+  }
+
+  .pricing-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .testimonial-card-single {
+    padding: 2rem 1.25rem;
+  }
+
+  .testimonial-quote {
+    font-size: 1.05rem;
   }
 }
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .floating-badge {
+    position: static;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .treat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .about-pills {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-toggle {
+    flex-direction: column;
+  }
+
+  .footer-btn-group .btn {
+    width: 100%;
+  }
+}
+
