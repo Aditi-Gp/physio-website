@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel deployment
+.vercel
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Sensitive agent/local configurations
+.agents/mcp_config.json
+
+# Test & Playwright artifacts
+.playwright-mcp/
