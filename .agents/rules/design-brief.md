@@ -13,7 +13,7 @@ Fonts: Poppins for headings/empathy copy, Inter for dense/form text.
 2. About — empathy-led opening, 6,000+ patients, Jaypee Hospital Noida + Narendra Mohan Hospital
    Ghaziabad, "every session done personally by Anchal" differentiator
 3. Experience stat cards — 6,000+ Patients Treated / Jaypee Hospital / Narendra Mohan Hospital
-4. What I Treat — Spine & Neck / Joints & Muscles / Sports Injuries / Post-Surgical Rehab
+4. What We Treat — Spine & Neck / Joints & Muscles / Sports Injuries / Post-Surgical Rehab
 5. Techniques Used — Manual Therapy, Dry Needling, Joint Manipulation
 6. How It Works — 4 numbered steps (Assessment, Customized Plan, Active Therapy, Home Recovery)
 7. Pricing — ₹700 initial consult, ₹600 follow-up, international ~$25–30 via PayPal (placeholder
