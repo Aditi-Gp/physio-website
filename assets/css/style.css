@@ -340,20 +340,39 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   Hero Section
+   Hero Section (Full-width Banner Image with Left Content Overlay)
    ========================================================================== */
 .hero-section {
-  background: var(--bg-hero);
-  padding: 3.5rem 0 4rem;
   position: relative;
-  overflow: hidden;
+  background-color: #EBF5F6;
+  background-image: 
+    linear-gradient(90deg, 
+      rgba(240, 248, 249, 0.98) 0%, 
+      rgba(240, 248, 249, 0.94) 42%, 
+      rgba(240, 248, 249, 0.6) 58%, 
+      rgba(240, 248, 249, 0.1) 72%, 
+      rgba(240, 248, 249, 0) 85%),
+    url('../images/banner%20image.png');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
+  min-height: 520px;
+  padding: 4.5rem 0 4.5rem;
+  display: flex;
+  align-items: center;
 }
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 3rem;
-  align-items: center;
+.hero-banner-container {
+  position: relative;
+  width: 92%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.hero-content-col {
+  max-width: 580px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-title {
@@ -375,7 +394,7 @@ button, input, select, textarea {
   color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 2rem;
-  max-width: 540px;
+  max-width: 520px;
 }
 
 .hero-pills-row {
@@ -424,35 +443,11 @@ button, input, select, textarea {
   text-decoration: underline;
 }
 
-/* Hero Right: Doctor Image & Floating Badge */
-.hero-image-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-image-container {
-  width: 100%;
-  max-width: 480px;
-  aspect-ratio: 1.15/1;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  position: relative;
-  box-shadow: var(--shadow-card);
-  background-color: #E2EFF1;
-}
-
-.hero-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
+/* Floating Doctor Badge Overlay */
 .hero-floating-card {
   position: absolute;
-  bottom: -15px;
-  right: -10px;
+  bottom: 0;
+  right: 0;
   background: var(--bg-card);
   border: 1px solid var(--border-teal);
   border-radius: var(--radius-lg);
@@ -461,6 +456,7 @@ button, input, select, textarea {
   align-items: center;
   gap: 0.85rem;
   box-shadow: var(--shadow-floating);
+  z-index: 3;
 }
 
 .floating-card-icon {
@@ -504,7 +500,7 @@ button, input, select, textarea {
    Trust / Social Proof Bar
    ========================================================================== */
 .trust-bar-section {
-  margin-top: -1rem;
+  margin-top: 2rem;
   margin-bottom: 3.5rem;
   position: relative;
   z-index: 10;
@@ -1418,13 +1414,19 @@ select.input-field {
     display: block;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+  .hero-section {
+    background-image: 
+      linear-gradient(90deg, 
+        rgba(240, 248, 249, 0.98) 0%, 
+        rgba(240, 248, 249, 0.95) 55%, 
+        rgba(240, 248, 249, 0.7) 75%, 
+        rgba(240, 248, 249, 0.3) 100%),
+      url('../images/banner%20image.png');
+    padding: 3.5rem 0 4rem;
   }
 
-  .hero-image-container {
-    max-width: 100%;
+  .hero-content-col {
+    max-width: 500px;
   }
 
   .journey-unified-card {
@@ -1445,8 +1447,28 @@ select.input-field {
 }
 
 @media (max-width: 680px) {
+  .hero-section {
+    background-image: 
+      linear-gradient(180deg, 
+        rgba(240, 248, 249, 0.97) 0%, 
+        rgba(240, 248, 249, 0.95) 100%),
+      url('../images/banner%20image.png');
+    padding: 2.5rem 0 3rem;
+  }
+
   .hero-title {
     font-size: 2.15rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-floating-card {
+    position: static;
+    margin-top: 1.75rem;
+    width: 100%;
   }
 
   .trust-bar-card {
