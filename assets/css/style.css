@@ -654,13 +654,21 @@ button, input, select, textarea {
 }
 
 .condition-icon-wrap {
-  width: 60px;
-  height: 60px;
+  width: 100%;
+  min-height: 180px;
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-teal);
+}
+
+.condition-icon-wrap img {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  object-fit: contain;
 }
 
 .condition-title {
