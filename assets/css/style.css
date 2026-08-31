@@ -270,7 +270,12 @@ ul {
   transition: var(--transition-fast);
 }
 
-.nav-links a:hover,
+.nav-links a:hover {
+  color: #8FAF8B;
+  border-color: var(--secondary-sage-border);
+  background-color: var(--secondary-sage-light);
+}
+
 .nav-links a.active {
   color: var(--accent-terracotta);
   border-color: var(--secondary-sage-border);
