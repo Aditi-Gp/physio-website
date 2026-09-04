@@ -1,60 +1,73 @@
 /* ==========================================================================
    Dr. Anchal Gupta - Telephysiotherapy Care
-   Exact UI Recreation Stylesheet
-   Color Palette:
-   - Primary Deep Teal: #0D5C63 / #0A4A50
-   - Accent Cyan/Teal: #0D9488 / #14B8A6 / #0E7490
-   - Light Background Teal: #F0F8F9 / #E8F5F6 / #F6FBFA
-   - Border Teal/Gray: #D5E8EA / #E2E8F0
-   - Text Slate: #1E293B / #334155
-   - Text Muted: #64748B / #94A3B8
-   - Pure White: #FFFFFF
+   Design System & Master Stylesheet
+   Palette: 60% Light Aqua (#F0F8F9), 30% Deep Teal (#0D5C63), 10% Coral/Cyan
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   -------------------------------------------------------------------------- */
 :root {
-  /* Brand Palette */
-  --primary-teal: #0D5C63;
-  --primary-teal-dark: #094348;
-  --primary-teal-light: #147B84;
-  --accent-cyan: #0D9488;
-  --accent-cyan-light: #2DD4BF;
-  --accent-cyan-soft: #CCFBF1;
-  --accent-cyan-gradient: linear-gradient(135deg, #0D9488 0%, #0E7490 100%);
-  
-  /* Background Colors */
-  --bg-page: #F8FAFB;
-  --bg-hero: linear-gradient(180deg, #F0F8F9 0%, #FFFFFF 100%);
+  /* Concept 1: Clean & Clinical Palette */
+  --primary-teal: #0D9488;
+  --primary-teal-dark: #0F766E;
+  --primary-teal-light: #14B8A6;
+  --accent-cyan: #06B6D4;
+  --accent-cyan-light: #22D3EE;
+  --accent-cyan-glow: rgba(13, 148, 136, 0.15);
+  --accent-coral: #F43F5E; /* only for alerts/errors if needed */
+  --accent-green: #10B981;
+  --accent-gold: #F59E0B;
+
+  /* Surfaces & Backgrounds */
+  --bg-body: #FFFFFF;
+  --bg-hero: #F8FAFC;
   --bg-soft-teal: #F0F8F9;
+  --bg-soft-teal-alt: #E2E8F0;
   --bg-card: #FFFFFF;
-  --bg-footer: #0D5C63;
-  
-  /* Text Colors */
-  --text-dark: #1E293B;
-  --text-body: #334155;
+  --bg-card-glass: rgba(255, 255, 255, 0.95);
+  --bg-footer: #0F172A;
+  --bg-footer-dark: #0B1120;
+
+  /* Typography Colors */
+  --text-dark: #0F172A; /* Deep Navy */
+  --text-body: #475569; /* Slate Gray */
   --text-muted: #64748B;
   --text-light: #94A3B8;
   --text-white: #FFFFFF;
 
-  /* Borders & Shadows */
-  --border-light: #E2E8F0;
-  --border-teal: #D5E8EA;
-  --border-teal-active: #0D5C63;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-  --shadow-subtle: 0 2px 10px rgba(13, 92, 99, 0.04);
-  --shadow-card: 0 4px 20px rgba(13, 92, 99, 0.06);
-  --shadow-card-hover: 0 8px 30px rgba(13, 92, 99, 0.12);
-  --shadow-floating: 0 12px 32px rgba(13, 92, 99, 0.14);
+  /* Borders & Dividers */
+  --border-light: #F1F5F9;
+  --border-teal: #E2E8F0;
+  --border-teal-accent: rgba(13, 148, 136, 0.15);
+  --border-glass: rgba(255, 255, 255, 0.8);
+
+  /* Shadows & Elevations - Flat Design Soft Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-card-hover: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-floating: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+  --shadow-glow-teal: 0 10px 15px -3px rgba(13, 148, 136, 0.2);
+  --shadow-glow-coral: 0 10px 15px -3px rgba(244, 63, 94, 0.2);
 
   /* Typography */
-  --font-main: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px; /* Softer app-like corners */
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-smooth: all 0.25s ease-out;
+  --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Base Reset */
+/* --------------------------------------------------------------------------
+   2. Reset & Global Base
+   -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -64,16 +77,22 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  color-scheme: light;
 }
 
 body {
-  font-family: var(--font-main);
-  background-color: var(--bg-page);
+  font-family: var(--font-family);
+  background-color: var(--bg-body);
   color: var(--text-body);
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
 }
 
 a {
@@ -82,125 +101,167 @@ a {
   transition: var(--transition-smooth);
 }
 
-ul {
-  list-style: none;
-}
-
-img, svg {
-  display: block;
-  max-width: 100%;
-}
-
 button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;
 }
 
+ul, ol {
+  list-style: none;
+}
+
 .container {
   width: 92%;
   max-width: 1240px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* ==========================================================================
-   Buttons
-   ========================================================================== */
+/* Section Title Accents */
+.underline-accent {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-accent::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--accent-cyan-light);
+  border-radius: 2px;
+  z-index: -1;
+  opacity: 0.85;
+}
+
+.section-heading-centered {
+  text-align: center;
+  font-size: 2.35rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.section-subheading-centered {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 3rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. Buttons & Component Utilities
+   -------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.4rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  cursor: pointer;
+  font-weight: 700;
+  border-radius: var(--radius-full);
   border: 1px solid transparent;
+  cursor: pointer;
   transition: var(--transition-smooth);
-  text-align: center;
-  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-primary {
   background-color: var(--primary-teal);
   color: var(--text-white);
+  padding: 0.85rem 1.75rem;
   box-shadow: 0 4px 12px rgba(13, 92, 99, 0.2);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-teal-dark);
+  box-shadow: 0 6px 18px rgba(13, 92, 99, 0.28);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(13, 92, 99, 0.28);
 }
 
 .btn-outline-pill {
   background-color: var(--bg-card);
-  border: 1px solid var(--border-teal);
+  border: 1.5px solid var(--border-teal-accent);
   color: var(--primary-teal);
-  border-radius: var(--radius-full);
-  padding: 0.65rem 1.4rem;
-  font-size: 0.9rem;
+  padding: 0.75rem 1.6rem;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-outline-pill:hover {
-  border-color: var(--primary-teal);
   background-color: var(--bg-soft-teal);
-  transform: translateY(-1px);
+  border-color: var(--primary-teal);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
 }
 
+/* Hero Pill Action Button */
 .btn-pill-action {
-  background-color: var(--bg-card);
-  border: 1.5px solid var(--primary-teal);
-  color: var(--primary-teal);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1.25rem;
-  text-align: left;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  box-shadow: var(--shadow-subtle);
+  align-items: center;
+  justify-content: center;
+  background-color: var(--text-dark); /* Deep Navy */
+  color: var(--text-white);
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+  position: relative;
 }
 
 .btn-pill-action:hover {
-  background-color: var(--bg-soft-teal);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-floating);
+  background-color: #1E293B;
 }
 
 .btn-pill-action .action-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--primary-teal);
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .btn-pill-action .action-subtitle {
-  font-size: 0.78rem;
-  color: var(--text-muted);
+  font-size: 0.72rem;
   font-weight: 500;
-  margin-top: 0.15rem;
+  opacity: 0.85;
+  letter-spacing: 0.02em;
 }
 
+/* WhatsApp Hero Button */
 .btn-whatsapp-hero {
-  background-color: var(--primary-teal);
-  color: var(--text-white);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1.25rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  box-shadow: 0 4px 14px rgba(13, 92, 99, 0.25);
+  background-color: var(--primary-teal); /* Vibrant Teal */
+  color: var(--text-white);
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
 }
 
 .btn-whatsapp-hero:hover {
-  background-color: var(--primary-teal-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(13, 92, 99, 0.35);
+  box-shadow: var(--shadow-floating);
+  background-color: var(--primary-teal-dark);
 }
 
 .btn-whatsapp-hero .btn-icon {
-  font-size: 1.5rem;
-  color: #25D366;
+  font-size: 1.4rem;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
 }
 
 .btn-whatsapp-hero .btn-text-block {
@@ -210,26 +271,73 @@ button, input, select, textarea {
 }
 
 .btn-whatsapp-hero .btn-title {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .btn-whatsapp-hero .btn-sub {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 400;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 500;
 }
 
-/* ==========================================================================
-   Header / Navigation Bar
-   ========================================================================== */
+/* Live Pulse Dot Badge */
+.live-availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary-teal);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.2rem;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  position: relative;
+}
+
+.live-pulse-dot::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.4);
+  animation: pulse-ring 1.8s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Header / Navigation Bar
+   -------------------------------------------------------------------------- */
 .site-header {
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 10px rgba(13, 92, 99, 0.03);
+  transition: var(--transition-smooth);
 }
 
 .nav-container {
@@ -242,16 +350,21 @@ button, input, select, textarea {
 .brand-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .brand-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-teal);
+  transition: transform 0.3s ease;
+}
+
+.brand-wrapper:hover .brand-icon {
+  transform: scale(1.05);
 }
 
 .brand-info {
@@ -260,18 +373,18 @@ button, input, select, textarea {
 }
 
 .brand-name {
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 800;
   color: var(--primary-teal);
   line-height: 1.15;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .brand-tagline {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .main-nav {
@@ -288,9 +401,9 @@ button, input, select, textarea {
 
 .nav-link {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-body);
-  padding: 0.35rem 0.1rem;
+  padding: 0.4rem 0.2rem;
   position: relative;
 }
 
@@ -300,7 +413,7 @@ button, input, select, textarea {
 
 .nav-link.active {
   color: var(--primary-teal);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .nav-link.active::after {
@@ -317,17 +430,20 @@ button, input, select, textarea {
 .header-action .btn-book-nav {
   background-color: var(--primary-teal);
   color: var(--text-white);
-  padding: 0.65rem 1.25rem;
-  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius-full);
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  box-shadow: 0 4px 12px rgba(13, 92, 99, 0.2);
 }
 
 .header-action .btn-book-nav:hover {
   background-color: var(--primary-teal-dark);
+  box-shadow: 0 6px 16px rgba(13, 92, 99, 0.28);
+  transform: translateY(-1px);
 }
 
 .mobile-menu-toggle {
@@ -339,25 +455,25 @@ button, input, select, textarea {
   color: var(--primary-teal);
 }
 
-/* ==========================================================================
-   Hero Section (Full-width Banner Image with Left Content Overlay)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   5. Hero Section (Full-Width Banner with Left Content & Floating Badges)
+   -------------------------------------------------------------------------- */
 .hero-section {
   position: relative;
-  background-color: #EBF5F6;
+  background-color: var(--bg-hero);
   background-image: 
     linear-gradient(90deg, 
-      rgba(240, 248, 249, 0.98) 0%, 
-      rgba(240, 248, 249, 0.94) 42%, 
-      rgba(240, 248, 249, 0.6) 58%, 
-      rgba(240, 248, 249, 0.1) 72%, 
-      rgba(240, 248, 249, 0) 85%),
+      rgba(248, 250, 252, 0.98) 0%, 
+      rgba(248, 250, 252, 0.92) 44%, 
+      rgba(248, 250, 252, 0.5) 60%, 
+      rgba(248, 250, 252, 0.1) 74%, 
+      rgba(248, 250, 252, 0) 86%),
     url('../images/banner%20image.png');
   background-repeat: no-repeat;
   background-position: right center;
   background-size: cover;
-  min-height: 520px;
-  padding: 4.5rem 0 4.5rem;
+  min-height: 560px;
+  padding: 5rem 0;
   display: flex;
   align-items: center;
 }
@@ -370,23 +486,24 @@ button, input, select, textarea {
 }
 
 .hero-content-col {
-  max-width: 580px;
+  max-width: 600px;
   position: relative;
   z-index: 2;
 }
 
 .hero-title {
-  font-size: 2.85rem;
+  font-size: 3.2rem;
   font-weight: 800;
-  line-height: 1.18;
+  line-height: 1.15;
   color: var(--text-dark);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   margin-bottom: 1rem;
 }
 
 .hero-title .highlight {
   color: var(--accent-cyan);
   display: inline-block;
+  position: relative;
 }
 
 .hero-description {
@@ -400,7 +517,7 @@ button, input, select, textarea {
 .hero-pills-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 1.15rem;
   margin-bottom: 2.25rem;
 }
 
@@ -408,8 +525,8 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 700;
   color: var(--text-dark);
 }
 
@@ -417,12 +534,13 @@ button, input, select, textarea {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: var(--bg-soft-teal);
+  background-color: #FFFFFF;
   border: 1px solid var(--border-teal);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-teal);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-cta-group {
@@ -440,36 +558,45 @@ button, input, select, textarea {
 
 .hero-reassurance a {
   color: var(--primary-teal);
+  font-weight: 700;
   text-decoration: underline;
 }
 
 /* Floating Doctor Badge Overlay */
 .hero-floating-card {
   position: absolute;
-  bottom: 0;
+  bottom: 0.25rem;
   right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-teal);
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
-  padding: 0.85rem 1.25rem;
+  padding: 0.9rem 1.35rem;
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.9rem;
   box-shadow: var(--shadow-floating);
   z-index: 3;
+  transition: var(--transition-smooth);
+}
+
+.hero-floating-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .floating-card-icon {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background-color: var(--bg-soft-teal);
-  border: 1px solid var(--border-teal);
+  border: 1.5px solid var(--border-teal);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-teal);
-  font-size: 1.2rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .floating-card-text {
@@ -477,28 +604,29 @@ button, input, select, textarea {
 }
 
 .floating-card-text .doc-name {
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   font-weight: 800;
   color: var(--text-dark);
   display: block;
+  line-height: 1.2;
 }
 
 .floating-card-text .doc-specialty {
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
   display: block;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .floating-card-text .doc-exp {
-  font-size: 0.74rem;
-  color: var(--text-dark);
+  font-size: 0.76rem;
+  color: var(--accent-cyan);
   font-weight: 700;
 }
 
-/* ==========================================================================
-   Trust / Social Proof Bar
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   6. Social Proof / Trust Bar
+   -------------------------------------------------------------------------- */
 .trust-bar-section {
   margin-top: 2rem;
   margin-bottom: 3.5rem;
@@ -508,9 +636,9 @@ button, input, select, textarea {
 
 .trust-bar-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-lg);
-  padding: 1rem 1.75rem;
+  padding: 1.1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -526,9 +654,8 @@ button, input, select, textarea {
 
 .stars-group {
   display: flex;
-  gap: 2px;
-  color: #F59E0B;
-  font-size: 1rem;
+  gap: 3px;
+  color: var(--accent-gold);
 }
 
 .rating-text-wrap {
@@ -536,24 +663,23 @@ button, input, select, textarea {
   flex-direction: column;
 }
 
-.rating-text-wrap .trusted-count {
-  font-size: 0.88rem;
-  font-weight: 700;
+.trusted-count {
+  font-size: 0.95rem;
+  font-weight: 800;
   color: var(--text-dark);
+  line-height: 1.2;
 }
 
-.rating-text-wrap .trusted-sub {
-  font-size: 0.75rem;
+.trusted-sub {
+  font-size: 0.74rem;
   color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
+  font-weight: 500;
 }
 
 .flags-group {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .flag-icons {
@@ -562,18 +688,10 @@ button, input, select, textarea {
   gap: 0.4rem;
 }
 
-.flag-img {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-}
-
 .flags-more {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-muted);
-  font-weight: 500;
 }
 
 .read-reviews-link {
@@ -582,124 +700,144 @@ button, input, select, textarea {
   color: var(--primary-teal);
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-soft-teal);
+  transition: var(--transition-smooth);
 }
 
 .read-reviews-link:hover {
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   Section: Conditions We Treat
-   ========================================================================== */
-.section-conditions {
-  padding: 1rem 0 4rem;
-  text-align: center;
-}
-
-.section-heading-centered {
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 2.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.section-heading-centered .underline-accent {
-  position: relative;
-  display: inline-block;
-}
-
-.section-heading-centered .underline-accent::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
   background-color: var(--primary-teal);
-  border-radius: 2px;
+  color: var(--text-white);
+  transform: translateX(2px);
+}
+
+/* --------------------------------------------------------------------------
+   7. Conditions We Treat (Interactive Cards with Symptom Chips)
+   -------------------------------------------------------------------------- */
+.section-conditions {
+  padding: 4rem 0 4.5rem;
+  background-color: var(--bg-body);
 }
 
 .conditions-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.75rem;
 }
 
 .condition-box {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-lg);
-  padding: 1.75rem 1rem;
+  padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  box-shadow: var(--shadow-subtle);
+  box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
+  position: relative;
 }
 
 .condition-box:hover {
-  border-color: var(--border-teal);
-  transform: translateY(-4px);
+  border-color: var(--primary-teal-light);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
 }
 
 .condition-icon-wrap {
-  width: 100%;
-  min-height: 180px;
-  margin-bottom: 1.25rem;
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-soft-teal);
+  border: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-teal);
+  margin-bottom: 1.15rem;
+  transition: var(--transition-smooth);
 }
 
-.condition-icon-wrap img {
-  display: block;
-  width: 100%;
-  max-width: 220px;
-  height: auto;
-  object-fit: contain;
+.condition-box:hover .condition-icon-wrap {
+  background-color: var(--primary-teal);
+  color: var(--text-white);
+  border-color: var(--primary-teal);
 }
 
 .condition-title {
-  font-size: 0.92rem;
+  font-size: 1.12rem;
   font-weight: 700;
   color: var(--text-dark);
+  margin-bottom: 0.65rem;
   line-height: 1.3;
 }
 
-/* ==========================================================================
-   Section: Know Your Doctor
-   ========================================================================== */
+/* Symptom Chips */
+.symptom-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.symptom-tag-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--primary-teal);
+  background-color: var(--bg-soft-teal);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-teal);
+}
+
+.condition-book-action {
+  margin-top: auto;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--primary-teal);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: gap 0.2s ease;
+}
+
+.condition-book-action:hover {
+  color: var(--accent-cyan);
+  gap: 0.6rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Know Your Doctor (About & Hospital Affiliations)
+   -------------------------------------------------------------------------- */
 .section-know-doctor {
-  padding: 1rem 0 3.5rem;
+  padding: 4.5rem 0 5rem;
+  background-color: var(--bg-soft-teal);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .doctor-profile-card {
-  background: var(--bg-soft-teal);
+  background: var(--bg-card);
   border: 1px solid var(--border-teal);
   border-radius: var(--radius-xl);
   padding: 2.25rem;
   display: grid;
-  grid-template-columns: 240px 1fr 340px;
+  grid-template-columns: 240px 1.25fr 1fr;
   gap: 2.5rem;
   align-items: center;
-  box-shadow: var(--shadow-subtle);
+  box-shadow: var(--shadow-card);
 }
 
 .doctor-photo-frame {
   width: 100%;
-  aspect-ratio: 0.88/1;
+  aspect-ratio: 1/1.15;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background-color: #D6EAEC;
   box-shadow: var(--shadow-card);
+  border: 2px solid #FFFFFF;
 }
 
 .doctor-photo-frame img {
@@ -710,18 +848,18 @@ button, input, select, textarea {
 }
 
 .doctor-bio-content h2 {
-  font-size: 1.85rem;
+  font-size: 2.15rem;
   font-weight: 800;
   color: var(--text-dark);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .doctor-bio-subtitle {
-  font-size: 0.92rem;
-  color: var(--primary-teal);
-  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.5;
   margin-bottom: 1.75rem;
-  line-height: 1.45;
 }
 
 .doctor-stats-row {
@@ -731,40 +869,45 @@ button, input, select, textarea {
 }
 
 .stat-pill-box {
-  background: var(--bg-card);
+  background-color: var(--bg-soft-teal);
   border: 1px solid var(--border-teal);
   border-radius: var(--radius-md);
-  padding: 1rem 0.75rem;
+  padding: 0.85rem 0.75rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-subtle);
+  gap: 0.25rem;
+  transition: var(--transition-smooth);
+}
+
+.stat-pill-box:hover {
+  background-color: #FFFFFF;
+  border-color: var(--primary-teal);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-pill-box .stat-icon {
   color: var(--primary-teal);
-  margin-bottom: 0.4rem;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 0.15rem;
 }
 
-.stat-pill-box .stat-number {
-  font-size: 1.15rem;
+.stat-number {
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--primary-teal);
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-.stat-pill-box .stat-desc {
+.stat-desc {
   font-size: 0.72rem;
   color: var(--text-muted);
   font-weight: 600;
-  margin-top: 0.15rem;
 }
 
-/* Hospital Credentials */
 .hospital-cards-stack {
   display: flex;
   flex-direction: column;
@@ -772,83 +915,93 @@ button, input, select, textarea {
 }
 
 .hospital-badge-card {
-  background: var(--bg-card);
+  background-color: #FFFFFF;
   border: 1px solid var(--border-teal);
   border-radius: var(--radius-md);
-  padding: 1.15rem;
+  padding: 1rem 1.15rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
-  box-shadow: var(--shadow-subtle);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
+
+.hospital-badge-card:hover {
+  border-color: var(--primary-teal);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-card);
 }
 
 .hospital-logo-badge {
-  width: 72px;
-  flex-shrink: 0;
-  padding: 0.4rem 0.2rem;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background-color: var(--bg-soft-teal);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-sm);
-  background-color: #F8FAFC;
-  border: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .hospital-details h4 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--primary-teal);
-  margin-bottom: 0.25rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
 }
 
 .hospital-details p {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
   line-height: 1.4;
 }
 
-/* ==========================================================================
-   Section: How It Works & Your Journey With Us
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   9. Unified Journey Container (How It Works + Your Journey With Us)
+   -------------------------------------------------------------------------- */
 .section-journey {
-  padding: 1rem 0 3.5rem;
+  padding: 4.5rem 0 5rem;
+  background-color: var(--bg-body);
 }
 
 .journey-unified-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-xl);
   padding: 2.5rem;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 3rem;
   box-shadow: var(--shadow-card);
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 3rem;
+  align-items: center;
 }
 
-/* How It Works (Left) */
-.how-it-works-block h3 {
-  font-size: 1.4rem;
+.how-it-works-block h3,
+.journey-features-block h3 {
+  font-size: 1.75rem;
   font-weight: 800;
   color: var(--text-dark);
-  text-align: center;
-  margin-bottom: 2.25rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.75rem;
 }
 
 .steps-timeline-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
   position: relative;
 }
 
 .steps-timeline-row::before {
   content: '';
   position: absolute;
-  top: 25px;
-  left: 10%;
-  right: 10%;
+  top: 26px;
+  left: 30px;
+  right: 30px;
   height: 2px;
-  border-top: 2px dashed var(--border-teal);
+  background: linear-gradient(90deg, var(--border-teal) 0%, var(--accent-cyan-light) 50%, var(--border-teal) 100%);
   z-index: 1;
 }
 
@@ -862,31 +1015,48 @@ button, input, select, textarea {
 }
 
 .step-circle {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: var(--primary-teal);
-  color: var(--text-white);
+  background-color: #FFFFFF;
+  border: 2px solid var(--primary-teal);
+  color: var(--primary-teal);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.85rem;
-  box-shadow: 0 4px 10px rgba(13, 92, 99, 0.25);
+  margin-bottom: 0.65rem;
+  box-shadow: 0 4px 10px rgba(13, 92, 99, 0.1);
+  transition: var(--transition-smooth);
+}
+
+.step-node:hover .step-circle {
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
+  transform: scale(1.08);
 }
 
 .step-index-num {
-  font-size: 0.75rem;
+  position: absolute;
+  top: -4px;
+  right: 20%;
+  width: 18px;
+  height: 18px;
+  background-color: var(--accent-coral);
+  color: #FFFFFF;
+  font-size: 0.68rem;
   font-weight: 800;
-  color: var(--text-muted);
-  margin-bottom: 0.15rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .step-node-title {
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-dark);
-  margin-bottom: 0.35rem;
-  line-height: 1.25;
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
 }
 
 .step-node-desc {
@@ -895,88 +1065,73 @@ button, input, select, textarea {
   line-height: 1.35;
 }
 
-/* Your Journey With Us (Right) */
 .journey-features-block {
   border-left: 1px solid var(--border-light);
   padding-left: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.journey-features-block h3 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 1.5rem;
 }
 
 .journey-content-split {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 1rem;
+  display: flex;
   align-items: center;
+  gap: 1.5rem;
 }
 
 .journey-check-list {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  flex: 1.2;
 }
 
 .journey-check-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.86rem;
-  font-weight: 600;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--text-dark);
 }
 
 .journey-check-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
   border-radius: 50%;
   background-color: var(--bg-soft-teal);
-  border: 1.5px solid var(--accent-cyan);
-  color: var(--accent-cyan);
+  color: var(--primary-teal);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 900;
+  border: 1px solid var(--border-teal);
 }
 
 .journey-illustration-frame {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex: 0.9;
+  max-width: 160px;
 }
 
-.journey-illustration-frame svg {
-  width: 100%;
-  max-width: 170px;
-  height: auto;
-}
-
-/* ==========================================================================
-   Section: Consultation Fees & Book Your Session (Bottom Two Columns)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   10. Consultation Fees & Book Your Session (Two-Column Bottom Section)
+   -------------------------------------------------------------------------- */
 .section-booking-fees {
-  padding: 1rem 0 3.5rem;
+  padding: 4.5rem 0 5rem;
+  background-color: var(--bg-soft-teal);
+  border-top: 1px solid var(--border-light);
 }
 
 .booking-fees-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.5rem;
+  align-items: start;
 }
 
-/* Left Card: Consultation Fees */
+/* Left: Consultation Fees */
 .fees-card-wrapper {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-xl);
   padding: 2.25rem;
   box-shadow: var(--shadow-card);
@@ -985,174 +1140,243 @@ button, input, select, textarea {
   justify-content: space-between;
 }
 
-.fees-card-wrapper h3 {
-  font-size: 1.35rem;
+.fees-card-wrapper h3,
+.booking-form-wrapper h3 {
+  font-size: 1.75rem;
   font-weight: 800;
   color: var(--text-dark);
-  text-align: center;
-  margin-bottom: 1.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
 }
 
 .fees-subgrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
 }
 
 .fee-tier-box {
-  background: var(--bg-soft-teal);
-  border: 1px solid var(--border-teal);
+  background-color: var(--bg-soft-teal);
+  border: 1.5px solid var(--border-teal);
   border-radius: var(--radius-lg);
   padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.fee-tier-box.recommended {
+  background-color: #FFFFFF;
+  border-color: var(--primary-teal);
+  box-shadow: var(--shadow-card);
+}
+
+.fee-tier-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-cyan) 100%);
+  color: #FFFFFF;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 6px rgba(13, 92, 99, 0.2);
 }
 
 .fee-tier-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--primary-teal);
-  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.4rem;
 }
 
 .fee-tier-price {
   font-size: 1.85rem;
   font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
+  color: var(--primary-teal);
+  margin-bottom: 1.15rem;
 }
 
 .fee-feature-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
 }
 
 .fee-feature-item {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.8rem;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-body);
-  font-weight: 500;
 }
 
-.fee-feature-item i, .fee-feature-item svg {
-  color: var(--accent-cyan);
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
+.fee-feature-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent-green);
+  min-width: 16px;
+}
+
+.btn-select-tier {
+  margin-top: auto;
+  width: 100%;
+  padding: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-teal-accent);
+  background-color: #FFFFFF;
+  color: var(--primary-teal);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-select-tier:hover,
+.fee-tier-box.recommended .btn-select-tier {
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
+  border-color: var(--primary-teal);
 }
 
 .payments-global-bar {
   border-top: 1px solid var(--border-light);
   padding-top: 1.25rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
-.payments-global-bar .payments-label {
-  font-size: 0.76rem;
+.payments-label {
+  font-size: 0.84rem;
   color: var(--text-muted);
-  font-weight: 500;
-  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .payment-badges-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
+  gap: 0.85rem;
   flex-wrap: wrap;
 }
 
-.payment-badge-img {
-  height: 20px;
-  width: auto;
-  opacity: 0.85;
-  filter: grayscale(10%);
-}
-
-/* Right Card: Book Your Session Form */
+/* Right: Book Your Session Form (Without File Upload) */
 .booking-form-wrapper {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-xl);
   padding: 2.25rem;
   box-shadow: var(--shadow-card);
-  position: relative;
 }
 
-.booking-form-wrapper h3 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 1.5rem;
+.quick-date-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.quick-date-btn {
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-teal);
+  background-color: var(--bg-soft-teal);
+  color: var(--primary-teal);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.quick-date-btn:hover,
+.quick-date-btn.active {
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
+  border-color: var(--primary-teal);
 }
 
 .booking-inputs-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
   margin-bottom: 1.25rem;
 }
 
 .input-field {
   width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: #FFFFFF;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.15rem;
+  background-color: var(--bg-soft-teal);
+  border: 1.5px solid var(--border-teal);
+  border-radius: var(--radius-md);
   color: var(--text-dark);
-  font-size: 0.88rem;
-  outline: none;
+  font-size: 0.92rem;
+  font-weight: 500;
   transition: var(--transition-smooth);
+  outline: none;
 }
 
 .input-field:focus {
+  background-color: #FFFFFF;
   border-color: var(--primary-teal);
-  box-shadow: 0 0 0 3px rgba(13, 92, 99, 0.1);
+  box-shadow: 0 0 0 3px rgba(13, 92, 99, 0.12);
 }
 
-select.input-field {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px;
-  padding-right: 2rem;
-  cursor: pointer;
+.input-field::placeholder {
+  color: var(--text-muted);
 }
 
 .btn-submit-payment {
   width: 100%;
   background-color: var(--primary-teal);
   color: var(--text-white);
-  padding: 0.9rem 1.5rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  font-weight: 700;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
   margin-bottom: 0.85rem;
 }
 
 .btn-submit-payment:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-floating);
   background-color: var(--primary-teal-dark);
 }
 
 .security-confidential-note {
-  text-align: center;
-  font-size: 0.78rem;
-  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
-/* Inline Booking Response States */
+.security-confidential-note svg {
+  color: var(--accent-cyan);
+}
+
+/* Feedback State */
 .form-feedback-card {
   display: none;
-  animation: fadeIn 0.3s ease;
+  background-color: var(--bg-soft-teal);
+  border: 1.5px solid var(--primary-teal);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
   text-align: center;
-  padding: 2rem 1rem;
+  animation: fadeIn 0.3s ease;
 }
 
 .form-feedback-card.active {
@@ -1160,101 +1384,121 @@ select.input-field {
 }
 
 .feedback-success-icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background-color: var(--accent-cyan-soft);
-  color: var(--primary-teal);
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
-  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+  margin: 0 auto 0.85rem;
 }
 
 .feedback-title {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 800;
-  color: var(--primary-teal);
-  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  margin-bottom: 0.4rem;
 }
 
 .feedback-summary-box {
-  background: var(--bg-soft-teal);
+  background-color: #FFFFFF;
   border: 1px solid var(--border-teal);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  margin: 1.25rem 0;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  margin: 1rem 0;
   text-align: left;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--text-body);
 }
 
-/* ==========================================================================
-   Section: What Patients Say
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   11. What Patients Say (Testimonials)
+   -------------------------------------------------------------------------- */
 .section-testimonials {
-  padding: 1rem 0 4rem;
+  padding: 4.5rem 0 5rem;
+  background-color: var(--bg-body);
 }
 
 .testimonials-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-  position: relative;
+  margin-bottom: 2.5rem;
 }
 
 .testimonials-header-row h3 {
-  font-size: 1.6rem;
+  font-size: 2.15rem;
   font-weight: 800;
   color: var(--text-dark);
+  letter-spacing: -0.02em;
+  text-align: center;
 }
 
 .testimonials-grid-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr) auto;
   gap: 1.25rem;
-  align-items: center;
+  align-items: stretch;
 }
 
 .testimonial-quote-box {
   background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-teal);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow-subtle);
-  min-height: 180px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
 }
 
-.quote-icon-small {
-  color: var(--border-teal);
-  font-size: 1.5rem;
-  line-height: 1;
-  margin-bottom: 0.6rem;
+.testimonial-quote-box:hover {
+  border-color: var(--primary-teal);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.testimonial-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.verified-patient-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+  background-color: #ECFDF5;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
 }
 
 .patient-quote-text {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   color: var(--text-body);
-  line-height: 1.45;
+  line-height: 1.6;
   margin-bottom: 1.25rem;
+  font-style: italic;
 }
 
 .patient-author-info {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .patient-avatar {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   object-fit: cover;
   background-color: var(--bg-soft-teal);
+  border: 1.5px solid var(--border-teal);
 }
 
 .patient-name-loc {
@@ -1263,43 +1507,162 @@ select.input-field {
 }
 
 .patient-name-loc .name {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   color: var(--text-dark);
 }
 
 .patient-name-loc .country {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
+  font-weight: 600;
 }
 
 .btn-read-more-reviews {
   background: var(--bg-card);
-  border: 1px solid var(--border-teal);
+  border: 1.5px solid var(--border-teal);
   color: var(--primary-teal);
-  border-radius: var(--radius-sm);
-  padding: 0.85rem 1.15rem;
-  font-size: 0.84rem;
-  font-weight: 700;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  font-size: 0.86rem;
+  font-weight: 800;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: 0.4rem;
   white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
 }
 
 .btn-read-more-reviews:hover {
-  background-color: var(--bg-soft-teal);
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
   border-color: var(--primary-teal);
+  transform: translateY(-2px);
 }
 
-/* ==========================================================================
-   Footer Bar (Dark Teal Bottom Bar)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   12. Frequently Asked Questions (FAQ)
+   -------------------------------------------------------------------------- */
+.section-faq {
+  padding: 4.5rem 0 5rem;
+  background-color: var(--bg-soft-teal);
+  border-top: 1px solid var(--border-light);
+}
+
+.faq-header-wrap {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.faq-header-wrap h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.faq-header-wrap p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.faq-accordion-container {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(13, 92, 99, 0.04);
+  transition: var(--transition-smooth);
+}
+
+.faq-item:hover {
+  border-color: var(--primary-teal);
+  box-shadow: 0 4px 14px rgba(13, 92, 99, 0.08);
+}
+
+.faq-item.active {
+  border-color: var(--primary-teal);
+  box-shadow: 0 4px 16px rgba(13, 92, 99, 0.1);
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 1.15rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  transition: var(--transition-smooth);
+}
+
+.faq-question:hover {
+  color: var(--primary-teal);
+}
+
+.faq-item.active .faq-question {
+  color: var(--primary-teal);
+}
+
+.faq-icon-circle {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  background-color: var(--bg-soft-teal);
+  color: var(--primary-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.faq-item.active .faq-icon-circle {
+  transform: rotate(180deg);
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+}
+
+.faq-answer-inner {
+  padding: 0 1.4rem 1.25rem;
+  color: var(--text-body);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   13. Footer Bar (Dark Teal Bottom Bar)
+   -------------------------------------------------------------------------- */
 .site-footer-bar {
   background-color: var(--bg-footer);
   color: var(--text-white);
-  padding: 1.15rem 0;
-  font-size: 0.84rem;
+  padding: 1.25rem 0;
+  font-size: 0.85rem;
 }
 
 .footer-bar-container {
@@ -1322,6 +1685,7 @@ select.input-field {
   align-items: center;
   gap: 0.45rem;
   color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
 }
 
 .footer-info-item a {
@@ -1352,12 +1716,44 @@ select.input-field {
   transform: translateY(-2px);
 }
 
-/* ==========================================================================
-   Responsive Breakpoints
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   14. Floating WhatsApp Quick-Help FAB
+   -------------------------------------------------------------------------- */
+.floating-whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--primary-teal);
+  color: #FFFFFF;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-floating);
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: var(--transition-smooth);
+}
+
+.floating-whatsapp-fab:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 25px 30px -5px rgba(13, 148, 136, 0.25);
+  background: var(--primary-teal-dark);
+}
+
+.floating-whatsapp-fab svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* --------------------------------------------------------------------------
+   15. Responsive Breakpoints
+   -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
   .conditions-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .doctor-profile-card {
@@ -1474,11 +1870,11 @@ select.input-field {
   .trust-bar-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .conditions-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .doctor-profile-card {
@@ -1510,15 +1906,7 @@ select.input-field {
     display: none;
   }
 
-  .journey-content-split {
-    grid-template-columns: 1fr;
-  }
-
   .fees-subgrid {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-inputs-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1530,14 +1918,13 @@ select.input-field {
     grid-column: span 1;
   }
 
-  .footer-bar-container {
-    flex-direction: column;
-    align-items: flex-start;
+  .floating-whatsapp-fab {
+    padding: 0.85rem 1.25rem;
+    bottom: 20px;
+    right: 20px;
+    border-radius: var(--radius-full);
   }
-
-  .footer-info-items {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  .floating-whatsapp-fab span {
+    display: inline;
   }
 }

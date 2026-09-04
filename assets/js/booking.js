@@ -1,6 +1,6 @@
 /**
- * booking.js - Form validation and submission for the updated Book Your Session UI
- * Completely removes any file upload logic as requested.
+ * booking.js - Form validation, Condition Card sync, Quick Date Selectors & Submission
+ * Strictly without file upload logic as requested.
  */
 
 export const FORM_CONFIG = {
@@ -29,10 +29,84 @@ export function initBookingForm() {
   const feedbackSummary = document.getElementById('feedback-summary-content');
   const feedbackWhatsAppBtn = document.getElementById('feedback-whatsapp-btn');
   const bookAgainBtn = document.getElementById('book-again-btn');
+  const conditionSelect = document.getElementById('bookCondition');
+  const dateInput = document.getElementById('bookDate');
+  const quickDateBtns = document.querySelectorAll('.quick-date-btn');
+
+  // 1. Initialize Quick Date Pills (Today / Tomorrow / Pick Date)
+  if (dateInput) {
+    // Set default date to today in YYYY-MM-DD
+    const today = new Date();
+    const formatDate = (d) => d.toISOString().split('T')[0];
+    dateInput.value = formatDate(today);
+    dateInput.min = formatDate(today);
+
+    quickDateBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        quickDateBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const offset = btn.dataset.offset;
+        if (offset === '0') {
+          dateInput.value = formatDate(new Date());
+        } else if (offset === '1') {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          dateInput.value = formatDate(tomorrow);
+        } else if (offset === 'custom') {
+          dateInput.focus();
+          if (typeof dateInput.showPicker === 'function') {
+            dateInput.showPicker();
+          }
+        }
+      });
+    });
+
+    dateInput.addEventListener('change', () => {
+      quickDateBtns.forEach((b) => b.classList.remove('active'));
+    });
+  }
+
+  // 2. Condition Cards Interactive Sync
+  const conditionBoxes = document.querySelectorAll('.condition-box');
+  conditionBoxes.forEach((box) => {
+    box.addEventListener('click', () => {
+      const conditionName = box.dataset.condition;
+      if (conditionSelect && conditionName) {
+        conditionSelect.value = conditionName;
+      }
+      const bookingSection = document.getElementById('book-session');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (conditionSelect) {
+          conditionSelect.style.borderColor = '#0D9488';
+          conditionSelect.style.boxShadow = '0 0 0 4px rgba(13, 148, 136, 0.2)';
+          setTimeout(() => {
+            conditionSelect.style.borderColor = '';
+            conditionSelect.style.boxShadow = '';
+          }, 1500);
+        }
+      }
+    });
+  });
+
+  // 3. Pricing Tier Buttons Sync
+  const tierBtns = document.querySelectorAll('.btn-select-tier');
+  tierBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tierName = btn.dataset.tierName;
+      const bookingSection = document.getElementById('book-session');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const nameInput = document.getElementById('bookFullName');
+        if (nameInput) nameInput.focus();
+      }
+    });
+  });
 
   if (!bookingForm) return;
 
-  // Handle Form Submission
+  // 4. Form Submission Handler
   bookingForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
