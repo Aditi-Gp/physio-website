@@ -1,6 +1,6 @@
 # Dr. Anchal Gupta — Online Physiotherapy Booking Site
 
-Single-page site for booking paid online physiotherapy video consultations.
+Single-page site for booking paid online physiotherapy video consultation
 
 ## Stack
 Static HTML/CSS/vanilla JS (House Physio base) + [Vercel serverless functions | Static Forms/FormBold]
