@@ -1173,6 +1173,12 @@ ul, ol {
   box-shadow: var(--shadow-card);
 }
 
+/* Selected tier (patient clicked "Select" button) */
+.fee-tier-box.selected {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.25);
+}
+
 .fee-tier-badge {
   position: absolute;
   top: -12px;
