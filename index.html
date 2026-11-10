@@ -99,7 +99,7 @@
         </div>
 
         <h1 class="hero-title" style="font-size: 2.8rem; margin-top: 1rem;">
-          Expert physical therapy,<br>
+          Expert physiotherapy,<br>
           <span class="highlight">from the comfort of home.</span>
         </h1>
         
@@ -353,7 +353,7 @@
       <div class="doctor-profile-card">
         <!-- Doctor Photo -->
         <div class="doctor-photo-frame">
-          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80" alt="Dr. Anchal Gupta - Senior Physiotherapist" width="240" height="272" loading="lazy" decoding="async">
+          <img src="assets/images/anchal.png" alt="Dr. Anchal Gupta - Senior Physiotherapist" width="240" height="272" loading="lazy" decoding="async">
         </div>
 
         <!-- Bio & Stats -->
@@ -517,11 +517,8 @@
                 <span>Consistent follow-ups</span>
               </div>
             </div>
-
-            <div class="journey-illustration-frame" style="background: var(--bg-soft-teal-alt); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; min-height: 180px; text-align: center; padding: 1.5rem; border: 1px dashed var(--text-light);">
-              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
-                [ Placeholder: Insert a real photo of Dr. Anchal on a video consultation here to build immediate trust. ]
-              </span>
+            <div class="journey-illustration-frame">
+              <img src="assets/images/video.png" alt="Virtual Care Illustration" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
@@ -544,7 +541,7 @@
               <div class="fee-tier-box recommended" data-tier="Initial Consultation">
                 <span class="fee-tier-badge">Most Popular</span>
                 <h4 class="fee-tier-title">Initial Consultation</h4>
-                <div class="fee-tier-price">₹1,500</div>
+                <div class="fee-tier-price">₹1,000</div>
                 <div class="fee-feature-list">
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
@@ -571,7 +568,7 @@
               <!-- Follow-up Session -->
               <div class="fee-tier-box" data-tier="Follow-up Session">
                 <h4 class="fee-tier-title">Follow-up Session</h4>
-                <div class="fee-tier-price">₹1,000</div>
+                <div class="fee-tier-price">₹800</div>
                 <div class="fee-feature-list">
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
@@ -644,18 +641,8 @@
             <div class="booking-inputs-grid">
               <input type="text" id="bookFullName" name="fullName" class="input-field" placeholder="Full Name" required>
               <input type="email" id="bookEmail" name="email" class="input-field" placeholder="Email Address" required>
-              
-              <select id="bookCondition" name="condition" class="input-field" required>
-                <option value="">Select Condition</option>
-                <option value="Vestibular Disorders">Vestibular Disorders</option>
-                <option value="Neurological Conditions">Neurological Conditions</option>
-                <option value="Back & Neck Pain">Back &amp; Neck Pain</option>
-                <option value="Post-Surgical Rehabilitation">Post-Surgical Rehabilitation</option>
-                <option value="Sports Injuries">Sports Injuries</option>
-                <option value="Geriatric Physiotherapy">Geriatric Physiotherapy</option>
-                <option value="Other Consultation">Other Musculoskeletal Condition</option>
-              </select>
-
+              <input type="tel" id="bookWhatsApp" name="whatsappNumber" class="input-field" placeholder="Write your WhatsApp Number" autocomplete="tel" inputmode="tel" pattern="\+?[0-9][0-9\x20\x2d\x28\x29]{7,19}" required>
+              <input type="text" id="bookIssue" name="issueDescription" class="input-field" placeholder="Describe your issue" maxlength="200" required>
               <input type="date" id="bookDate" name="preferredDate" class="input-field" required>
             </div>
 
@@ -677,86 +664,58 @@
   </section>
 
   <!-- ==========================================================================
-       8. What Patients Say (Testimonials)
+       8. Google Reviews
        ========================================================================== -->
-  <section class="section-testimonials" id="testimonials">
+  <section class="section-testimonials google-reviews-section" id="testimonials" aria-labelledby="google-reviews-heading">
     <div class="container">
-      <div class="testimonials-header-row">
-        <h3>Patient Stories</h3>
-        <p class="section-subheading-centered" style="margin-bottom: 2rem;">
-          Real feedback from people who regained their mobility through our virtual sessions.
-        </p>
+      <div class="google-reviews-header">
+        <div class="google-reviews-intro">
+          <h2 id="google-reviews-heading">Reviews from Google</h2>
+          <p>Experiences shared by patients on Google.</p>
+        </div>
+
+        <aside class="google-rating-card" aria-label="Google rating snapshot: 5.0 out of 5 from 24 reviews">
+          <span class="google-rating-value" data-google-rating>5.0</span>
+          <div class="google-rating-details">
+            <div class="google-rating-stars" data-google-rating-stars aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="google-rating-count" data-google-review-count>Based on 27 Google reviews</p>
+            <p class="google-rating-status" data-google-rating-status></p>
+            <a class="google-reviews-link" href="https://www.google.com/searchviewer/10?svid=CAwSHRIbCgNwdnESFENnMHZaeTh4TVhvMWRESTRjalJxGAo#sv=CAESzQEKuQEStgEKd0FERGJXZWFtMWJtaXdDYlhSeWx2VzY1Q2tGNlI2Vk1FUlNhUU01T2pPVk9FUG9mOHIxT2NwTGg3TWlHTUl1Y0pOcElPM3IzQ2RaOU5OajBRelhNZXdubzhYcTZPWi1WOW1VSVk0UUsxZHcwNWNPbXQwWmUzbGg4Ehd2VHZtYXBhdEhjdVFzZU1QNDdiYjRRTRoiQUhOMEU3RXNPSDZKWEpHd2NDTnBYWGRPQmR2eTdjNnJEQRIEODA1MRoBMyoAMAA4AUAAGAAgmrSm4QNKAhAB" target="_blank" rel="noopener noreferrer">
+              <span>Live rating on Google</span>
+              <span class="google-wordmark" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17 17 7M7 7h10v10"></path>
+              </svg>
+            </a>
+          </div>
+        </aside>
       </div>
 
-      <div class="testimonials-grid-wrapper">
-        <!-- Testimonial 1 -->
-        <div class="testimonial-quote-box">
-          <div>
-            <div class="testimonial-top-row">
-              <div style="color: #F59E0B; font-size: 1.1rem; letter-spacing: 2px;">★★★★★</div>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Patient</span>
-            </div>
-            <p class="patient-quote-text" style="font-style: normal; line-height: 1.6; font-size: 0.95rem; color: var(--text-body);">
-              "I was really skeptical about doing physio over a video call, but Dr. Anchal's guidance for my vertigo was incredible. The exercises she taught me worked within just a few weeks. Highly recommend if you can't travel to a clinic."
-            </p>
+      <div class="testimonials-grid-wrapper google-reviews-grid" id="google-review-cards" aria-live="polite" aria-busy="true">
+        <article class="testimonial-quote-box google-review-card">
+          <p class="google-review-author">Yuvraj Kumar</p>
+          <div class="google-review-stars" role="img" aria-label="5 out of 5 stars">
+            <span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span>
           </div>
-          <div class="patient-author-info">
-            <div style="width: 38px; height: 38px; border-radius: 50%; background: #0D9488; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;">P</div>
-            <div class="patient-name-loc">
-              <span class="name">Priya S.</span>
-              <span class="country">Treated for Vestibular Issues</span>
-            </div>
+          <blockquote class="google-review-quote">Dr Anchal came for home session for my knee paid. I was relieved in 7 days. I recommend dr anchal to everyone if you want to get better soon as possible</blockquote>
+          <p class="google-review-date">Google snapshot · 4 months ago</p>
+        </article>
+        <article class="testimonial-quote-box google-review-card">
+          <p class="google-review-author">Shiwani Pandey</p>
+          <div class="google-review-stars" role="img" aria-label="5 out of 5 stars">
+            <span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span>
           </div>
-        </div>
-
-        <!-- Testimonial 2 -->
-        <div class="testimonial-quote-box">
-          <div>
-            <div class="testimonial-top-row">
-              <div style="color: #F59E0B; font-size: 1.1rem; letter-spacing: 2px;">★★★★★</div>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Patient</span>
-            </div>
-            <p class="patient-quote-text" style="font-style: normal; line-height: 1.6; font-size: 0.95rem; color: var(--text-body);">
-              "After my knee surgery, going to a hospital for rehab was painful. Having the sessions at home made a huge difference. She corrects my form through the camera just like she is in the room with me."
-            </p>
+          <blockquote class="google-review-quote">Excellent service and very professional approach. Everything was explained clearly, and the experience was comfortable and smooth. Truly appreciate the care and effort— I highly recommend Dr Aanchal for top notch care in noida.</blockquote>
+          <p class="google-review-date">Google snapshot · 6 months ago</p>
+        </article>
+        <article class="testimonial-quote-box google-review-card">
+          <p class="google-review-author">Anchal Apparel</p>
+          <div class="google-review-stars" role="img" aria-label="5 out of 5 stars">
+            <span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span><span class="google-review-star" aria-hidden="true">★</span>
           </div>
-          <div class="patient-author-info">
-            <div style="width: 38px; height: 38px; border-radius: 50%; background: #0F766E; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;">R</div>
-            <div class="patient-name-loc">
-              <span class="name">Rahul M.</span>
-              <span class="country">Post-Surgery Rehab</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 3 -->
-        <div class="testimonial-quote-box">
-          <div>
-            <div class="testimonial-top-row">
-              <div style="color: #F59E0B; font-size: 1.1rem; letter-spacing: 2px;">★★★★★</div>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Patient</span>
-            </div>
-            <p class="patient-quote-text" style="font-style: normal; line-height: 1.6; font-size: 0.95rem; color: var(--text-body);">
-              "Very professional and patient. She takes the time to explain exactly why we are doing a specific exercise and checks in on WhatsApp between sessions to see how the pain is. True care."
-            </p>
-          </div>
-          <div class="patient-author-info">
-            <div style="width: 38px; height: 38px; border-radius: 50%; background: #475569; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;">S</div>
-            <div class="patient-name-loc">
-              <span class="name">Sarah K.</span>
-              <span class="country">Chronic Back Pain</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Read More Reviews Button -->
-        <a href="#book-session" class="btn-read-more-reviews">
-          Join 6,000+ Recovered Patients
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
+          <blockquote class="google-review-quote">I had knee pain and I took session from Dr Anchal. She told me some precautions to take and exercised. I got relieved in just 5 days. Totally recommend.</blockquote>
+          <p class="google-review-date">Google snapshot · 6 months ago</p>
+        </article>
       </div>
     </div>
   </section>
@@ -835,7 +794,7 @@
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              Initial consultations are ₹1,500 and follow-ups are ₹1,000. We accept UPI, GPay, PhonePe, and major cards for domestic patients, and PayPal &amp; Stripe for international patients.
+              Initial consultations are ₹1,000 and follow-ups are ₹800. We accept UPI, GPay, PhonePe, and major cards for domestic patients, and PayPal &amp; Stripe for international patients.
             </div>
           </div>
         </div>

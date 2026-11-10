@@ -1,0 +1,11 @@
+{
+  "name": "physio-booking-site",
+  "private": true,
+  "scripts": {
+    "dev": "npx vercel dev"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.20.0"
+  }
+}

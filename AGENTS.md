@@ -2,7 +2,8 @@
 
 ## Stack
 Static HTML/CSS/vanilla JS, based on the House Physio template, restyled to a locked 60-30-10
-color system (see .agents/rules/design-brief.md). Backend: [fill in once you pick §4a or §4b].
+color system (see .agents/rules/design-brief.md). Backend: Vercel serverless functions with
+MongoDB Atlas booking and payment-reference storage.
 Razorpay (domestic) + PayPal (international) for payment.
 
 ## Commands

@@ -1108,8 +1108,20 @@ ul, ol {
 }
 
 .journey-illustration-frame {
-  flex: 0.9;
-  max-width: 160px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-soft-teal);
+}
+
+.journey-illustration-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -1421,131 +1433,201 @@ ul, ol {
 }
 
 /* --------------------------------------------------------------------------
-   11. What Patients Say (Testimonials)
+   11. Google Reviews
    -------------------------------------------------------------------------- */
 .section-testimonials {
-  padding: 4.5rem 0 5rem;
-  background-color: var(--bg-body);
+  padding: 3.5rem 0 4rem;
+  background-color: var(--bg-soft-teal);
 }
 
-.testimonials-header-row {
-  margin-bottom: 2.5rem;
+.google-reviews-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 1.75rem;
 }
 
-.testimonials-header-row h3 {
-  font-size: 2.15rem;
-  font-weight: 800;
+.google-reviews-intro {
+  max-width: 560px;
+}
+
+.google-reviews-intro h2 {
+  margin-bottom: 0.45rem;
   color: var(--text-dark);
+  font-size: clamp(1.7rem, 3vw, 2rem);
+  font-weight: 800;
   letter-spacing: -0.02em;
-  text-align: center;
+}
+
+.google-reviews-intro p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.google-rating-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.google-rating-value {
+  flex: 0 0 auto;
+  color: var(--text-dark);
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.google-rating-details {
+  min-width: 0;
+}
+
+.google-rating-details p {
+  margin: 0;
+}
+
+.google-rating-stars,
+.google-review-stars {
+  color: var(--accent-gold);
+  letter-spacing: 0.1em;
+}
+
+.google-rating-stars {
+  min-height: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.google-rating-count {
+  margin: 0.1rem 0 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.google-rating-status {
+  margin-bottom: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.67rem;
+}
+
+.google-reviews-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--primary-teal);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.google-reviews-link:hover {
+  color: var(--primary-teal-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.google-wordmark {
+  margin-left: 0.1rem;
+  font-size: 0.78rem;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.google-wordmark span:nth-child(1),
+.google-wordmark span:nth-child(4) {
+  color: #4285F4;
+}
+
+.google-wordmark span:nth-child(2),
+.google-wordmark span:nth-child(6) {
+  color: #EA4335;
+}
+
+.google-wordmark span:nth-child(3) {
+  color: #FBBC05;
+}
+
+.google-wordmark span:nth-child(5) {
+  color: #34A853;
 }
 
 .testimonials-grid-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) auto;
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
   align-items: stretch;
 }
 
 .testimonial-quote-box {
   background: var(--bg-card);
   border: 1px solid var(--border-teal);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
 }
 
 .testimonial-quote-box:hover {
-  border-color: var(--primary-teal);
-  transform: translateY(-3px);
+  border-color: var(--border-teal-accent);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
 }
 
-.testimonial-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.85rem;
-}
-
-.verified-patient-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #059669;
-  background-color: #ECFDF5;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-full);
-}
-
-.patient-quote-text {
-  font-size: 0.92rem;
-  color: var(--text-body);
-  line-height: 1.6;
-  margin-bottom: 1.25rem;
-  font-style: italic;
-}
-
-.patient-author-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.patient-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  background-color: var(--bg-soft-teal);
-  border: 1.5px solid var(--border-teal);
-}
-
-.patient-name-loc {
-  display: flex;
-  flex-direction: column;
-}
-
-.patient-name-loc .name {
-  font-size: 0.88rem;
-  font-weight: 800;
+.google-review-author {
+  overflow: hidden;
   color: var(--text-dark);
-}
-
-.patient-name-loc .country {
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.btn-read-more-reviews {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-teal);
-  color: var(--primary-teal);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-  font-size: 0.86rem;
+  font-size: 0.93rem;
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-smooth);
 }
 
-.btn-read-more-reviews:hover {
-  background-color: var(--primary-teal);
-  color: #FFFFFF;
-  border-color: var(--primary-teal);
-  transform: translateY(-2px);
+.google-review-author a {
+  color: inherit;
+}
+
+.google-review-stars {
+  display: flex;
+  gap: 0.1rem;
+  margin: 0.45rem 0 0.65rem;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.google-review-star.is-empty {
+  color: var(--border-teal);
+}
+
+.google-review-quote {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.google-review-date {
+  margin-top: 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.71rem;
+}
+
+.google-reviews-status {
+  grid-column: 1 / -1;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -1749,6 +1831,13 @@ ul, ol {
   background: var(--primary-teal-dark);
 }
 
+.floating-whatsapp-fab.is-hidden-for-reviews {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  visibility: hidden;
+}
+
 .floating-whatsapp-fab svg {
   width: 22px;
   height: 22px;
@@ -1775,17 +1864,24 @@ ul, ol {
     flex: 1;
   }
 
-  .testimonials-grid-wrapper {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .btn-read-more-reviews {
-    grid-column: span 3;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 900px) {
+  .google-reviews-header {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    gap: 1.25rem;
+  }
+
+  .testimonials-grid-wrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .google-review-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.5rem);
+  }
+
   .main-nav {
     position: fixed;
     top: 65px;
@@ -1849,6 +1945,43 @@ ul, ol {
 }
 
 @media (max-width: 680px) {
+  .section-testimonials {
+    padding: 2.75rem 0 3rem;
+  }
+
+  .google-reviews-header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .google-reviews-intro h2 {
+    font-size: 1.65rem;
+  }
+
+  .google-rating-card {
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .google-rating-value {
+    font-size: 1.85rem;
+  }
+
+  .testimonials-grid-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .google-review-card:last-child:nth-child(odd) {
+    grid-column: auto;
+    width: auto;
+  }
+
+  .testimonial-quote-box {
+    padding: 1rem;
+  }
+
   .hero-section {
     background-image: 
       linear-gradient(180deg, 
@@ -1881,6 +2014,15 @@ ul, ol {
 
   .conditions-grid {
     grid-template-columns: 1fr;
+  }
+
+  .journey-content-split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .journey-illustration-frame {
+    width: 100%;
   }
 
   .doctor-profile-card {
@@ -1918,10 +2060,6 @@ ul, ol {
 
   .testimonials-grid-wrapper {
     grid-template-columns: 1fr;
-  }
-
-  .btn-read-more-reviews {
-    grid-column: span 1;
   }
 
   .floating-whatsapp-fab {
