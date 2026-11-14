@@ -2,13 +2,15 @@ const GOOGLE_REVIEWS_URL = 'https://www.google.com/searchviewer/10?svid=CAwSHRIb
 
 function initChatButtonVisibility(section) {
   const chatButton = document.querySelector('.floating-whatsapp-fab');
+  const footer = document.querySelector('.site-footer-bar');
   if (!chatButton || !('IntersectionObserver' in window)) return;
 
   const originalTabIndex = chatButton.getAttribute('tabindex');
   let reviewsVisible = false;
+  let footerVisible = false;
 
   function updateVisibility() {
-    const hideButton = reviewsVisible && !chatButton.contains(document.activeElement);
+    const hideButton = (reviewsVisible || footerVisible) && !chatButton.contains(document.activeElement);
     chatButton.classList.toggle('is-hidden-for-reviews', hideButton);
 
     if (hideButton) {
@@ -24,11 +26,21 @@ function initChatButtonVisibility(section) {
     }
   }
 
-  const observer = new IntersectionObserver(([entry]) => {
-    reviewsVisible = entry.isIntersecting;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.target === section) {
+        reviewsVisible = entry.isIntersecting;
+      }
+      if (entry.target === footer) {
+        footerVisible = entry.isIntersecting;
+      }
+    });
     updateVisibility();
   });
-  observer.observe(section);
+
+  if (section) observer.observe(section);
+  if (footer) observer.observe(footer);
+
   chatButton.addEventListener('focus', updateVisibility);
   chatButton.addEventListener('blur', () => {
     window.setTimeout(updateVisibility, 0);

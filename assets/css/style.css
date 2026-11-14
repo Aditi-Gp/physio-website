@@ -76,7 +76,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 18px; /* Increased from 16px for improved overall website legibility */
   color-scheme: light;
 }
 
@@ -1858,8 +1858,10 @@ ul, ol {
 .site-footer-bar {
   background-color: var(--bg-footer);
   color: var(--text-white);
-  padding: 1.25rem 0;
-  font-size: 0.85rem;
+  padding: 1.5rem 0;
+  font-size: 0.92rem;
+  position: relative;
+  z-index: 20;
 }
 
 .footer-bar-container {
@@ -1867,7 +1869,8 @@ ul, ol {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  padding-right: 260px; /* Leaves dedicated buffer on desktop so floating button never covers social links */
 }
 
 .footer-info-items {
@@ -1880,9 +1883,10 @@ ul, ol {
 .footer-info-item {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
+  font-size: 0.92rem;
 }
 
 .footer-info-item a {
@@ -1891,26 +1895,30 @@ ul, ol {
 
 .footer-info-item a:hover {
   text-decoration: underline;
+  color: var(--primary-teal-light);
 }
 
 .footer-social-links {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .social-icon-link {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 1rem;
-  display: flex;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.15rem;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0.35rem;
+  border-radius: var(--radius-sm);
   transition: var(--transition-smooth);
 }
 
 .social-icon-link:hover {
-  color: #FFFFFF;
+  color: var(--primary-teal-light);
   transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* --------------------------------------------------------------------------
@@ -1956,6 +1964,10 @@ ul, ol {
    15. Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
+  html {
+    font-size: 17.5px;
+  }
+
   .conditions-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2051,9 +2063,35 @@ ul, ol {
   .booking-fees-grid {
     grid-template-columns: 1fr;
   }
+
+  .site-footer-bar {
+    padding-bottom: 5.5rem;
+  }
+
+  .footer-bar-container {
+    padding-right: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .footer-info-items {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer-social-links {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 680px) {
+  html {
+    font-size: 16.5px;
+  }
+
   .section-testimonials {
     padding: 2.75rem 0 3rem;
   }
