@@ -1,5 +1,7 @@
 const crypto = require('node:crypto');
 const { getDatabase } = require('../../lib/mongodb');
+const { generateMeetingLink } = require('../../lib/slots');
+const { sendBookingNotification } = require('../../lib/web3forms');
 
 function isValidWebhookSignature(body, signature, secret) {
   if (!Buffer.isBuffer(body) || typeof signature !== 'string' || !/^[a-f\d]{64}$/i.test(signature)) {
@@ -89,10 +91,62 @@ module.exports = async function handleRazorpayWebhook(req, res) {
       }
     }
 
+    const targetBooking = await bookings.findOne({ _id: order.bookingId });
+    if (targetBooking) {
+      const conflictingBooking = await bookings.findOne({
+        _id: { $ne: targetBooking._id },
+        preferredDate: targetBooking.preferredDate,
+        timeSlot: targetBooking.timeSlot,
+        status: 'paid',
+      });
+
+      if (conflictingBooking) {
+        console.error(`Webhook: Slot ${targetBooking.timeSlot} on ${targetBooking.preferredDate} was already paid by another patient.`);
+        await bookings.updateOne(
+          { _id: targetBooking._id },
+          {
+            $set: {
+              status: 'paid_slot_conflict',
+              paidAt: verifiedAt,
+              updatedAt: verifiedAt,
+              slotConflict: true,
+            },
+          }
+        );
+        return res.status(200).json({ received: true, slotConflict: true });
+      }
+    }
+
+    const meetingLink = targetBooking?.meetingLink || generateMeetingLink(order.bookingId.toString());
+
     await bookings.updateOne(
       { _id: order.bookingId, status: { $ne: 'paid' } },
-      { $set: { status: 'paid', paidAt: verifiedAt, updatedAt: verifiedAt } }
+      { $set: { status: 'paid', paidAt: verifiedAt, updatedAt: verifiedAt, meetingLink } }
     );
+
+    if (targetBooking && !targetBooking.web3formsSent) {
+      sendBookingNotification({
+        fullName: targetBooking.patient?.fullName,
+        email: targetBooking.patient?.email,
+        whatsappNumber: targetBooking.patient?.whatsappNumber,
+        issueDescription: targetBooking.issueDescription,
+        preferredDate: targetBooking.preferredDate,
+        timeSlot: targetBooking.timeSlot,
+        sessionType: targetBooking.sessionType?.label,
+        amountINR: order.expectedAmountPaise / 100,
+        paymentId: payment.id,
+        meetingLink,
+      }).then((notif) => {
+        if (notif?.success) {
+          bookings.updateOne(
+            { _id: targetBooking._id },
+            { $set: { web3formsSent: true, web3formsSentAt: new Date() } }
+          ).catch(() => {});
+        }
+      }).catch((err) => {
+        console.error('[Web3Forms] Error triggering notification from webhook:', err);
+      });
+    }
 
     return res.status(200).json({ received: true, verified: true });
   } catch (error) {

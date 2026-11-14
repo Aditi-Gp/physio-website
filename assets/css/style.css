@@ -1351,6 +1351,115 @@ ul, ol {
   color: var(--text-muted);
 }
 
+/* Time Slot Selector */
+.time-slots-wrapper {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.slots-section-title {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.55rem;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.slot-btn {
+  padding: 0.6rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-teal);
+  background-color: #FFFFFF;
+  color: var(--text-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  user-select: none;
+}
+
+.slot-btn:hover:not(:disabled) {
+  border-color: var(--primary-teal);
+  background-color: var(--bg-soft-teal);
+  color: var(--primary-teal);
+}
+
+.slot-btn.is-selected {
+  background-color: var(--primary-teal);
+  color: #FFFFFF;
+  border-color: var(--primary-teal);
+  box-shadow: 0 2px 8px rgba(13, 92, 99, 0.25);
+}
+
+.slot-btn:disabled,
+.slot-btn.is-unavailable {
+  background-color: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #94A3B8;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.slot-status-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.slot-btn.is-selected .slot-status-tag {
+  color: #E0F2F1;
+}
+
+.slots-help-text {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  min-height: 1.2rem;
+}
+
+.slots-loading-placeholder {
+  grid-column: 1 / -1;
+  padding: 0.85rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background-color: var(--bg-soft-teal);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border-teal);
+}
+
+.form-policy-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  text-align: center;
+  margin-bottom: 0.85rem;
+}
+
+.non-refundable-note {
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
 .btn-submit-payment {
   width: 100%;
   background-color: var(--primary-teal);

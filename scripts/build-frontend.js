@@ -12,6 +12,7 @@ const emailjs = {
   patientTemplateId: (process.env.EMAILJS_PATIENT_TEMPLATE_ID || '').trim(),
   doctorEmail: (process.env.DOCTOR_EMAIL || '').trim(),
 };
+const web3FormsKey = (process.env.WEB3_FORMS_API_KEY || '').trim();
 
 if (isProduction && !apiBaseUrl) {
   throw new Error('PUBLIC_API_BASE_URL must be set to the HTTPS Render API URL for production builds.');
@@ -45,5 +46,5 @@ fs.cpSync(
 );
 fs.writeFileSync(
   path.join(outputDirectory, 'assets', 'js', 'config.js'),
-  `window.PHYSIO_CONFIG = Object.freeze(${JSON.stringify({ apiBaseUrl, emailjs })});\n`
+  `window.PHYSIO_CONFIG = Object.freeze(${JSON.stringify({ apiBaseUrl, emailjs, web3FormsKey })});\n`
 );

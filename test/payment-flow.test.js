@@ -78,6 +78,7 @@ mongo.getDatabase = async () => ({
 const createBooking = require('../server/handlers/bookings');
 const createOrder = require('../server/handlers/order');
 const reportPayment = require('../server/handlers/payment');
+const reportPaymentFailure = require('../server/handlers/payment-failure');
 const handleWebhook = require('../server/handlers/razorpay-webhook');
 
 global.fetch = async (url, options = {}) => {
@@ -119,6 +120,15 @@ global.fetch = async (url, options = {}) => {
           status: 'authorized',
           captured: false,
         };
+      },
+    };
+  }
+
+  if (url.includes('web3forms.com')) {
+    return {
+      ok: true,
+      async json() {
+        return { success: true, message: 'Submission successful' };
       },
     };
   }
@@ -248,4 +258,18 @@ test('creates server-priced orders, verifies captured payments, and handles sign
     get: (name) => name === 'x-razorpay-signature' ? webhookSignature : undefined,
   }, replayResponse);
   assert.equal(replayResponse.statusCode, 200);
+
+  // Test recording payment failure
+  const failedBookingResponse = response();
+  await createBooking({ body: validBooking }, failedBookingResponse);
+  const failedBookingId = failedBookingResponse.body.bookingId;
+  const failureReqResponse = response();
+  await reportPaymentFailure({
+    params: { id: failedBookingId },
+    body: { reason: 'Card declined by issuing bank', code: 'BAD_REQUEST_ERROR' },
+  }, failureReqResponse);
+  assert.equal(failureReqResponse.statusCode, 200);
+  const failedBookingRecord = bookings.find((b) => b._id.toString() === failedBookingId);
+  assert.equal(failedBookingRecord.status, 'payment_failed');
+  assert.equal(failedBookingRecord.failureReason, 'Card declined by issuing bank');
 });

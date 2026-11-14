@@ -9,8 +9,9 @@ const { getDatabase } = require('./lib/mongodb');
 const createBooking = require('./server/handlers/bookings');
 const createOrder = require('./server/handlers/order');
 const reportPayment = require('./server/handlers/payment');
-const googleReviews = require('./server/handlers/google-reviews');
+const reportPaymentFailure = require('./server/handlers/payment-failure');
 const razorpayWebhook = require('./server/handlers/razorpay-webhook');
+const getSlots = require('./server/handlers/slots');
 
 const app = express();
 const port = Number(process.env.PORT) || 10000;
@@ -51,6 +52,7 @@ app.use(helmet({
         'https://checkout.razorpay.com',
         'https://*.razorpay.com',
         'https://api.emailjs.com',
+        'https://api.web3forms.com',
       ],
       frameSrc: [
         "'self'",
@@ -139,10 +141,17 @@ app.get('/healthz', async (req, res) => {
   }
 });
 
+app.get('/api/slots', runHandler(getSlots));
+app.get('/api/config', (req, res) => {
+  res.json({
+    web3FormsKey: process.env.WEB3_FORMS_API_KEY ? process.env.WEB3_FORMS_API_KEY.trim() : '',
+  });
+});
+
 app.post('/api/bookings', bookingRateLimit, runHandler(createBooking));
 app.post('/api/bookings/:id/order', bookingRateLimit, runHandler(createOrder));
 app.post('/api/bookings/:id/payment', bookingRateLimit, runHandler(reportPayment));
-app.get('/api/google-reviews', runHandler(googleReviews));
+app.post('/api/bookings/:id/fail', bookingRateLimit, runHandler(reportPaymentFailure));
 
 if (!isProduction) {
   app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));

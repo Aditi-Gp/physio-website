@@ -545,7 +545,7 @@
                 <div class="fee-feature-list">
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    <span>60-75 min 1-on-1 Video Call</span>
+                    <span>50 min 1-on-1 Video Call</span>
                   </div>
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
@@ -572,7 +572,7 @@
                 <div class="fee-feature-list">
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    <span>45-60 min Progress Review</span>
+                    <span>50 min Progress Review</span>
                   </div>
                   <div class="fee-feature-item">
                     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
@@ -604,6 +604,7 @@
               <span style="font-weight: 800; font-size: 0.9rem; color: #0D5C63; border: 1px solid #0D5C63; padding: 1px 5px; border-radius: 3px;">UPI</span>
               <span style="font-weight: 800; font-size: 0.95rem; color: #635BFF;">stripe</span>
             </div>
+            <p class="non-refundable-note">Please note: All consultation payments are non-refundable.</p>
           </div>
         </div>
 
@@ -646,6 +647,22 @@
               <input type="date" id="bookDate" name="preferredDate" class="input-field" required>
             </div>
 
+            <!-- 50-minute Time Slots Selector -->
+            <div class="time-slots-wrapper">
+              <label class="slots-section-title" id="slots-group-label">
+                <span>Select a 50-Minute Consultation Slot (10:00 AM – 05:00 PM IST):</span>
+              </label>
+              <div id="slots-grid" class="slots-grid" role="radiogroup" aria-labelledby="slots-group-label">
+                <div class="slots-loading-placeholder">Loading available slots...</div>
+              </div>
+              <input type="hidden" id="bookTimeSlot" name="timeSlot" required>
+              <p id="slots-help-text" class="slots-help-text"></p>
+            </div>
+
+            <p class="form-policy-note">
+              <strong>Please note:</strong> Payments are non-refundable. Each session is 50 minutes. The meeting link will be shared directly with the doctor and you will be contacted at your booked time.
+            </p>
+
             <button type="submit" class="btn btn-submit-payment">
               Proceed to Payment
             </button>
@@ -679,9 +696,8 @@
           <div class="google-rating-details">
             <div class="google-rating-stars" data-google-rating-stars aria-label="5 out of 5 stars">★★★★★</div>
             <p class="google-rating-count" data-google-review-count>Based on 27 Google reviews</p>
-            <p class="google-rating-status" data-google-rating-status></p>
             <a class="google-reviews-link" href="https://www.google.com/searchviewer/10?svid=CAwSHRIbCgNwdnESFENnMHZaeTh4TVhvMWRESTRjalJxGAo#sv=CAESzQEKuQEStgEKd0FERGJXZWFtMWJtaXdDYlhSeWx2VzY1Q2tGNlI2Vk1FUlNhUU01T2pPVk9FUG9mOHIxT2NwTGg3TWlHTUl1Y0pOcElPM3IzQ2RaOU5OajBRelhNZXdubzhYcTZPWi1WOW1VSVk0UUsxZHcwNWNPbXQwWmUzbGg4Ehd2VHZtYXBhdEhjdVFzZU1QNDdiYjRRTRoiQUhOMEU3RXNPSDZKWEpHd2NDTnBYWGRPQmR2eTdjNnJEQRIEODA1MRoBMyoAMAA4AUAAGAAgmrSm4QNKAhAB" target="_blank" rel="noopener noreferrer">
-              <span>Live rating on Google</span>
+              <span>Read on Google</span>
               <span class="google-wordmark" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M7 17 17 7M7 7h10v10"></path>
@@ -691,7 +707,7 @@
         </aside>
       </div>
 
-      <div class="testimonials-grid-wrapper google-reviews-grid" id="google-review-cards" aria-live="polite" aria-busy="true">
+      <div class="testimonials-grid-wrapper google-reviews-grid" id="google-review-cards" aria-live="polite" aria-busy="false">
         <article class="testimonial-quote-box google-review-card">
           <p class="google-review-author">Yuvraj Kumar</p>
           <div class="google-review-stars" role="img" aria-label="5 out of 5 stars">
@@ -794,7 +810,7 @@
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              Initial consultations are ₹1,000 and follow-ups are ₹800. We accept UPI, GPay, PhonePe, and major cards for domestic patients, and PayPal &amp; Stripe for international patients.
+              Initial consultations are ₹1,000 and follow-ups are ₹800 (each session is 50 minutes). All consultation payments are non-refundable. We accept UPI, GPay, PhonePe, and major cards for domestic patients, and PayPal &amp; Stripe for international patients. Once your slot is booked, the video meeting link is sent directly to Dr. Anchal Gupta and you will be contacted at your booked time.
             </div>
           </div>
         </div>

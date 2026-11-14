@@ -2,6 +2,8 @@ const crypto = require('node:crypto');
 const { ObjectId } = require('mongodb');
 const { getDatabase } = require('../../lib/mongodb');
 const { getCredentials, razorpayRequest } = require('../../lib/razorpay');
+const { generateMeetingLink } = require('../../lib/slots');
+const { sendBookingNotification } = require('../../lib/web3forms');
 
 function isValidSignature(orderId, paymentId, signature, keySecret) {
   if (typeof signature !== 'string' || !/^[a-f\d]{64}$/i.test(signature)) return false;
@@ -57,9 +59,23 @@ module.exports = async function reportPayment(req, res) {
       return res.status(404).json({ error: 'Razorpay order was not found for this booking.' });
     }
 
+    const meetingLink = booking.meetingLink || generateMeetingLink(bookingId);
+
     if (order.verificationStatus === 'verified') {
       if (order.razorpayPaymentId === paymentId) {
-        return res.status(200).json({ verified: true, verificationStatus: 'verified' });
+        return res.status(200).json({
+          verified: true,
+          verificationStatus: 'verified',
+          meetingLink,
+          booking: {
+            bookingId,
+            fullName: booking.patient?.fullName,
+            email: booking.patient?.email,
+            preferredDate: booking.preferredDate,
+            timeSlot: booking.timeSlot,
+            meetingLink,
+          },
+        });
       }
       return res.status(409).json({ error: 'A different payment is already verified for this order.' });
     }
@@ -113,12 +129,82 @@ module.exports = async function reportPayment(req, res) {
       }
     }
 
+    // Check if another patient has already booked and paid for this exact slot
+    const conflictingBooking = await bookings.findOne({
+      _id: { $ne: bookingObjectId },
+      preferredDate: booking.preferredDate,
+      timeSlot: booking.timeSlot,
+      status: 'paid',
+    });
+    if (conflictingBooking) {
+      console.error(`Slot ${booking.timeSlot} on ${booking.preferredDate} was already paid by another patient.`);
+      await bookings.updateOne(
+        { _id: bookingObjectId },
+        {
+          $set: {
+            status: 'paid_slot_conflict',
+            paidAt: verifiedAt,
+            updatedAt: verifiedAt,
+            slotConflict: true,
+          },
+        }
+      );
+      return res.status(409).json({
+        error: 'Payment was received, but this time slot was just booked by another patient. Our team will contact you on WhatsApp/phone immediately to reschedule or refund.',
+      });
+    }
+
     await bookings.updateOne(
       { _id: bookingObjectId, status: { $ne: 'paid' } },
-      { $set: { status: 'paid', paidAt: verifiedAt, updatedAt: verifiedAt } }
+      {
+        $set: {
+          status: 'paid',
+          paidAt: verifiedAt,
+          updatedAt: verifiedAt,
+          meetingLink,
+        },
+      }
     );
 
-    return res.status(200).json({ verified: true, verificationStatus: 'verified' });
+    // Send automated email to Dr. Anchal Gupta via Web3Forms
+    sendBookingNotification({
+      fullName: booking.patient?.fullName,
+      email: booking.patient?.email,
+      whatsappNumber: booking.patient?.whatsappNumber,
+      issueDescription: booking.issueDescription,
+      preferredDate: booking.preferredDate,
+      timeSlot: booking.timeSlot,
+      sessionType: booking.sessionType?.label,
+      amountINR: order.expectedAmountPaise / 100,
+      paymentId,
+      meetingLink,
+    }).then((notif) => {
+      if (notif?.success) {
+        bookings.updateOne(
+          { _id: bookingObjectId },
+          { $set: { web3formsSent: true, web3formsSentAt: new Date() } }
+        ).catch(() => {});
+      }
+    }).catch((err) => {
+      console.error('[Web3Forms] Error triggering notification:', err);
+    });
+
+    return res.status(200).json({
+      verified: true,
+      verificationStatus: 'verified',
+      meetingLink,
+      booking: {
+        bookingId,
+        fullName: booking.patient?.fullName,
+        email: booking.patient?.email,
+        whatsappNumber: booking.patient?.whatsappNumber,
+        preferredDate: booking.preferredDate,
+        timeSlot: booking.timeSlot,
+        sessionType: booking.sessionType?.label,
+        amountINR: order.expectedAmountPaise / 100,
+        meetingLink,
+      },
+    });
   } catch (error) {
     if (error.code === 'MONGODB_NOT_CONFIGURED') {
       console.error('Razorpay payment could not be verified because MongoDB is not configured.');
