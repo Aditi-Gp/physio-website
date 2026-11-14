@@ -17,17 +17,17 @@
   <!-- Site Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
 
+  <!-- Public frontend configuration. The production build injects only non-secret values. -->
+  <script src="assets/js/config.js"></script>
+
   <!-- Razorpay Standard Checkout SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <!-- EmailJS SDK — sends booking confirmation emails directly from the browser -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    // Initialize EmailJS with your Public Key
-    // Get this from: https://dashboard.emailjs.com/admin/account
-    (function () {
-      emailjs.init({ publicKey: 'YOUR_EMAILJS_PUBLIC_KEY' });
-    })();
+    const emailjsPublicKey = window.PHYSIO_CONFIG?.emailjs?.publicKey;
+    if (emailjsPublicKey) emailjs.init({ publicKey: emailjsPublicKey });
   </script>
 </head>
 <body>

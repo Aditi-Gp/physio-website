@@ -3,13 +3,10 @@
  * Razorpay Payment, and EmailJS notification.
  *
  * PAYMENT & NOTIFICATION FLOW:
- *   Patient fills form → "Proceed to Payment"
- *     → Razorpay modal opens (amount based on selected tier)
- *       → On payment success:
- *           1. Email to Dr. Anchal  (all booking + payment details)
- *           2. Email to Patient     (booking confirmation receipt)
- *           3. Success card shown on page
- *       → On payment dismiss: form stays open, patient can retry
+ *   Patient fills form → API saves booking and creates a Razorpay order
+ *     → Razorpay modal opens with the server-created order
+ *       → API verifies signature and captured payment before showing success
+ *       → Emails are sent after payment verification
  *
  * EMAIL SETUP (EmailJS — https://emailjs.com):
  *   1. Sign up at emailjs.com (free: 200 emails/month)
@@ -17,11 +14,6 @@
  *   3. Create TWO email templates (see EMAILJS_CONFIG below for variable names)
  *   4. Copy Public Key, Service ID, and both Template IDs here.
  *
- * ⚠️ SECURITY NOTE (flagged per deny-rules.md):
- *   This is a client-side Razorpay Standard Checkout integration.
- *   The razorpay_payment_id is NOT server-verified here.
- *   For production, verify the signature server-side using HMAC-SHA256
- *   with your Razorpay Key Secret before treating any payment as confirmed.
  */
 
 // ─── Configuration ────────────────────────────────────────────────────────────
@@ -29,17 +21,7 @@
 export const FORM_CONFIG = {
 
   // ── EmailJS ───────────────────────────────────────────────────────────────
-  // All values from https://dashboard.emailjs.com/
-  emailjs: {
-    serviceId:           'YOUR_SERVICE_ID',        // e.g. 'service_abc123'
-    doctorTemplateId:    'YOUR_DOCTOR_TEMPLATE_ID', // notifies Dr. Anchal
-    patientTemplateId:   'YOUR_PATIENT_TEMPLATE_ID',// confirms to patient
-    doctorEmail:         'your.email@gmail.com',    // Dr. Anchal's email address
-  },
-
-  // ── Razorpay ──────────────────────────────────────────────────────────────
-  // Replace with your actual Key ID from https://dashboard.razorpay.com/
-  razorpayKeyId: 'rzp_test_TucP6igly7jzXG',
+  emailjs: window.PHYSIO_CONFIG?.emailjs || {},
 
   // ── Pricing (INR) ─────────────────────────────────────────────────────────
   tiers: {
@@ -53,7 +35,8 @@ export const FORM_CONFIG = {
 };
 
 async function _postJson(url, payload) {
-  const response = await fetch(url, {
+  const apiBaseUrl = window.PHYSIO_CONFIG?.apiBaseUrl || '';
+  const response = await fetch(`${apiBaseUrl}${url}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -161,7 +144,7 @@ export function initBookingForm() {
 
   if (!bookingForm) return;
 
-  // ── 4. Save booking → Razorpay → Email on success ──────────────────────
+  // ── 4. Save booking → create order → verify payment ───────────────────
   bookingForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -210,44 +193,65 @@ export function initBookingForm() {
         throw new Error('The booking service did not return a booking reference.');
       }
 
+      const order = await _postJson(
+        `/api/bookings/${encodeURIComponent(booking.bookingId)}/order`,
+        {}
+      );
+
       if (typeof window.Razorpay === 'undefined') {
-        throw new Error('Your booking was saved, but payment checkout is unavailable. Please try again later.');
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          script.onload = () => resolve();
+          script.onerror = () => resolve();
+          document.head.appendChild(script);
+        });
       }
 
-      // The payment reference is persisted after checkout but remains unverified
-      // until a server-side Razorpay signature check is configured.
+      if (typeof window.Razorpay === 'undefined') {
+        throw new Error('Your booking was saved, but payment checkout is unavailable. Please check your internet connection or ad-blocker and try again.');
+      }
+
       const options = {
-        key:         FORM_CONFIG.razorpayKeyId,
-        amount:      tier.amount * 100,
-        currency:    'INR',
+        key:         order.keyId,
+        amount:      order.amount,
+        currency:    order.currency,
+        order_id:    order.orderId,
         name:        'Dr. Anchal Gupta',
-        description: tier.label,
+        description: order.description,
         prefill: {
           name:    fullName,
           email:   email,
           contact: whatsappDigits
         },
-        notes: { issueDescription, whatsappNumber, preferredDate: sessionDate },
         theme: { color: '#0D5C63' },
         handler: async function (response) {
-          const paymentId = response.razorpay_payment_id || 'N/A';
-          await _onPaymentSuccess(
-            {
+          try {
+            await _onPaymentSuccess(
+              {
               bookingId: booking.bookingId,
               fullName,
               email,
               whatsappNumber,
               issueDescription,
               sessionDate,
-              tierLabel: tier.label,
-              amountINR: tier.amount,
-              paymentId
-            },
-            feedbackCard,
-            feedbackSummary,
-            feedbackWABtn,
-            bookingForm
-          );
+                tierLabel: order.description,
+                amountINR: order.amount / 100,
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+              },
+              feedbackCard,
+              feedbackSummary,
+              feedbackWABtn,
+              bookingForm
+            );
+          } catch (error) {
+            console.error('[Booking] Razorpay payment was not verified.');
+            alert(error instanceof Error
+              ? error.message
+              : 'Payment verification failed. Please contact support before retrying.');
+          }
         },
         modal: {
           ondismiss: function () {
@@ -283,20 +287,19 @@ export function initBookingForm() {
 // ─── Post-Payment Success Handler ─────────────────────────────────────────────
 
 async function _onPaymentSuccess(
-  { bookingId, fullName, email, whatsappNumber, issueDescription, sessionDate, tierLabel, amountINR, paymentId },
+  { bookingId, fullName, email, whatsappNumber, issueDescription, sessionDate, tierLabel, amountINR, paymentId, orderId, signature },
   feedbackCard, feedbackSummary, feedbackWABtn, bookingForm
 ) {
   const bookedAt   = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
   const amountFmt  = `₹${amountINR.toLocaleString('en-IN')}`;
   const waFallback = _buildWhatsAppUrl({ fullName, email, whatsappNumber, issueDescription, sessionDate, tierLabel, amountFmt, paymentId });
 
-  if (bookingId && paymentId !== 'N/A') {
-    try {
-      await _postJson(`/api/bookings/${encodeURIComponent(bookingId)}/payment`, { paymentId });
-    } catch (error) {
-      console.error('[Booking] Unable to save the Razorpay payment reference.');
-      alert('Your payment may have succeeded, but its reference could not be saved. Please do not pay again. Contact Dr. Anchal and share your Razorpay payment ID.');
-    }
+  const verification = await _postJson(
+    `/api/bookings/${encodeURIComponent(bookingId)}/payment`,
+    { paymentId, orderId, signature }
+  );
+  if (verification.verificationStatus !== 'verified' || verification.verified !== true) {
+    throw new Error('Payment could not be verified. Please contact support before retrying.');
   }
 
   // 1. Show success card immediately (don't wait for emails)
@@ -402,8 +405,7 @@ function _showSuccessCard(
       <div><strong>Amount Paid:</strong> ${escapeHtml(amountFmt)}</div>
       <div><strong>Payment ID:</strong> <code style="font-size:0.78em;word-break:break-all">${escapeHtml(paymentId)}</code></div>
       <div style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-muted)">
-        A confirmation email has been sent to <strong>${escapeHtml(email)}</strong>.<br>
-        Dr. Anchal will confirm your slot within a few hours.
+        Payment verified and booking recorded. Dr. Anchal will confirm your slot within a few hours.
       </div>
     `;
   }
@@ -441,10 +443,10 @@ function _buildWhatsAppUrl({ fullName, email, whatsappNumber, issueDescription, 
 function _isEmailJsPlaceholder() {
   const { serviceId, doctorTemplateId, patientTemplateId, doctorEmail } = FORM_CONFIG.emailjs;
   return (
-    serviceId.startsWith('YOUR_') ||
-    doctorTemplateId.startsWith('YOUR_') ||
-    patientTemplateId.startsWith('YOUR_') ||
-    doctorEmail.includes('your.email')
+    typeof serviceId !== 'string' || !serviceId ||
+    typeof doctorTemplateId !== 'string' || !doctorTemplateId ||
+    typeof patientTemplateId !== 'string' || !patientTemplateId ||
+    typeof doctorEmail !== 'string' || !doctorEmail
   );
 }
 

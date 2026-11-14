@@ -18,13 +18,6 @@ function createStarRating(rating, className = 'google-review-stars') {
   return stars;
 }
 
-function createStatusMessage(message) {
-  const status = document.createElement('p');
-  status.className = 'google-reviews-status';
-  status.textContent = message;
-  return status;
-}
-
 function createReviewCard(review) {
   const card = document.createElement('article');
   card.className = 'testimonial-quote-box google-review-card';
@@ -119,7 +112,8 @@ export async function initGoogleReviews() {
   cardsContainer.setAttribute('aria-busy', 'false');
 
   try {
-    const response = await fetch('/api/google-reviews', { cache: 'no-store' });
+    const apiBaseUrl = window.PHYSIO_CONFIG?.apiBaseUrl || '';
+    const response = await fetch(`${apiBaseUrl}/api/google-reviews`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Google Reviews request failed with status ${response.status}.`);
     }
@@ -153,17 +147,11 @@ export async function initGoogleReviews() {
       cardsContainer.replaceChildren(liveReviews);
       statusElement.textContent = 'Live Google data · updated just now';
     } else {
-      statusElement.textContent = 'Live rating · saved review snapshot';
-      const liveStatus = createStatusMessage('Google did not return review text in this response; showing the saved review snapshot.');
-      liveStatus.classList.add('google-reviews-fallback-status');
-      cardsContainer.appendChild(liveStatus);
+      statusElement.textContent = '';
     }
   } catch (error) {
     console.error('Unable to load Google Reviews:', error);
     statusElement.textContent = '';
-    const liveStatus = createStatusMessage('Showing saved Google reviews. Open Google for the latest ratings and reviews.');
-    liveStatus.classList.add('google-reviews-fallback-status');
-    cardsContainer.appendChild(liveStatus);
   } finally {
     cardsContainer.setAttribute('aria-busy', 'false');
   }
