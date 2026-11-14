@@ -1,11 +1,12 @@
 # Locked design brief
 
-## Palette — exact hex, do not substitute
-- Dominant (60%) — cream background: #FAF6EC
-- Secondary (30%) — sage green (nav, footer, dividers): #8FAF8B
-- Accent (10%) — terracotta/rust (CTAs and active states ONLY): #E2725B
-- Text — slate/charcoal, never pure black: #2D3748
-Fonts: Poppins for headings/empathy copy, Inter for dense/form text.
+## Palette — Clean & Clinical (Concept 1)
+- Dominant (60%) — Crisp White background: #FFFFFF
+- Secondary (30%) — Soft Ice-Teal (cards, sections): #F0F8F9
+- Accent (10%) — Deep Navy (headings, primary text): #0F172A
+- CTA / Action — Vibrant Medical Teal (buttons): #0D9488
+- Text — Slate Gray for body text: #475569
+Fonts: Modern sans-serif stack (Inter/Roboto) for clean app-like UI.
 
 ## Section order (single scrolling page)
 1. Header — name, credentials (Physiotherapist | Reg. No: MIAP 61713 | CVRS), tagline, photo,
@@ -13,7 +14,7 @@ Fonts: Poppins for headings/empathy copy, Inter for dense/form text.
 2. About — empathy-led opening, 6,000+ patients, Jaypee Hospital Noida + Narendra Mohan Hospital
    Ghaziabad, "every session done personally by Anchal" differentiator
 3. Experience stat cards — 6,000+ Patients Treated / Jaypee Hospital / Narendra Mohan Hospital
-4. What I Treat — Spine & Neck / Joints & Muscles / Sports Injuries / Post-Surgical Rehab
+4. What We Treat — Spine & Neck / Joints & Muscles / Sports Injuries / Post-Surgical Rehab
 5. Techniques Used — Manual Therapy, Dry Needling, Joint Manipulation
 6. How It Works — 4 numbered steps (Assessment, Customized Plan, Active Therapy, Home Recovery)
 7. Pricing — ₹700 initial consult, ₹600 follow-up, international ~$25–30 via PayPal (placeholder

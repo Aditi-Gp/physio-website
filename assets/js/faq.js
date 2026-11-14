@@ -2,36 +2,36 @@
  * faq.js - FAQ Accordion Logic
  */
 export function initFaqAccordion() {
-  const faqItems = document.querySelectorAll('.faq-item');
+  const faqQuestions = document.querySelectorAll('.faq-question');
 
-  faqItems.forEach((item) => {
-    const question = item.querySelector('.faq-question');
-    const answer = item.querySelector('.faq-answer');
+  faqQuestions.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const currentItem = btn.closest('.faq-item');
+      if (!currentItem) return;
 
-    if (question && answer) {
-      question.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
+      const answer = currentItem.querySelector('.faq-answer');
+      const inner = currentItem.querySelector('.faq-answer-inner');
+      const isCurrentlyActive = currentItem.classList.contains('active');
 
-        // Close all other FAQ items
-        faqItems.forEach((otherItem) => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('active');
-            const otherAnswer = otherItem.querySelector('.faq-answer');
-            if (otherAnswer) {
-              otherAnswer.style.maxHeight = null;
-            }
-          }
-        });
-
-        // Toggle current FAQ item
-        if (isActive) {
-          item.classList.remove('active');
-          answer.style.maxHeight = null;
-        } else {
-          item.classList.add('active');
-          answer.style.maxHeight = answer.scrollHeight + 30 + 'px';
-        }
+      // Close all items
+      document.querySelectorAll('.faq-item').forEach((item) => {
+        item.classList.remove('active');
+        const qBtn = item.querySelector('.faq-question');
+        if (qBtn) qBtn.setAttribute('aria-expanded', 'false');
+        const aEl = item.querySelector('.faq-answer');
+        if (aEl) aEl.style.maxHeight = null;
       });
-    }
+
+      // If it wasn't active, open it
+      if (!isCurrentlyActive) {
+        currentItem.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+        if (answer) {
+          const contentHeight = inner ? inner.scrollHeight + 30 : 150;
+          answer.style.maxHeight = contentHeight + 'px';
+        }
+      }
+    });
   });
 }

@@ -1,14 +1,14 @@
 /**
- * main.js - Application entrypoint
+ * main.js - Application Entrypoint
  */
 import { initNavigation } from './nav.js';
-import { initFaqAccordion } from './faq.js';
-import { initTestimonialsSlider } from './testimonials.js';
 import { initBookingForm } from './booking.js';
+import { initFaqAccordion } from './faq.js';
+import { initGoogleReviews } from './google-reviews.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
-  initFaqAccordion();
-  initTestimonialsSlider();
   initBookingForm();
+  initFaqAccordion();
+  initGoogleReviews();
 });
